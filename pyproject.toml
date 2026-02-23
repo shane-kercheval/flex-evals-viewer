@@ -5,7 +5,7 @@ description = "Template repository showing how to use flex-evals to evaluate LLM
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
-    "flex-evals>=0.3.26",
+    "flex-evals>=0.3.27",
     "sik-llms>=0.3.30",
 ]
 
