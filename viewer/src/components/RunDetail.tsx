@@ -46,7 +46,7 @@ export default function RunDetail() {
   const results = metadata._test_results
   const passed = results.passed
 
-  // Compute cost/token totals from all samples
+  // Compute cost/token totals from all samples (agent + judge)
   const usageTotals = run.results.reduce(
     (acc, r) => {
       const usage = (r.execution_context.output.value as Record<string, unknown>)?.usage as
@@ -55,6 +55,14 @@ export default function RunDetail() {
         acc.inputTokens += usage.input_tokens ?? 0
         acc.outputTokens += usage.output_tokens ?? 0
         acc.totalCost += usage.total_cost ?? 0
+      }
+      for (const check of r.check_results) {
+        const judgeMeta = check.results.judge_metadata
+        if (judgeMeta) {
+          acc.inputTokens += judgeMeta.input_tokens ?? 0
+          acc.outputTokens += judgeMeta.output_tokens ?? 0
+          acc.totalCost += judgeMeta.total_cost ?? 0
+        }
       }
       return acc
     },
@@ -158,6 +166,12 @@ export default function RunDetail() {
 
       <SummaryMatrix results={run.results} />
       <TestCaseTable results={run.results} />
+
+      <div className="mt-6 border-t border-gray-100 pt-4 space-y-1 text-[11px] text-gray-400">
+        <p><span className="font-medium text-gray-500">Total Cost / Tokens</span> (header) includes both agent response costs and LLM judge costs across all samples.</p>
+        <p><span className="font-medium text-gray-500">Per-sample duration</span> reflects the agent response time only; it does not include check execution or judge evaluation time.</p>
+        <p><span className="font-medium text-gray-500">Per-sample cost</span> reflects the agent response only; judge cost is shown separately within the check detail.</p>
+      </div>
     </div>
   )
 }

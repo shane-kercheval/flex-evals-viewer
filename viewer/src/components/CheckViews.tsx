@@ -174,6 +174,11 @@ function LLMJudgeView({ check }: { check: CheckResult }) {
               ${meta.total_cost.toFixed(5)}
             </span>
           )}
+          {meta.duration_seconds != null && (
+            <span className="text-[11px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 font-mono">
+              {meta.duration_seconds.toFixed(2)}s
+            </span>
+          )}
           {meta.input_tokens != null && (
             <span className="text-[11px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 font-mono">
               {meta.input_tokens} in / {meta.output_tokens ?? '?'} out

@@ -24,6 +24,7 @@ categories:
         expected:
           tool_name: "generate_sql"
           must_reference_tables: ["customers"]
+          answer: "There are 8 customers."
         metadata:
           description: "Aggregate COUNT query on a single table"
 
@@ -33,6 +34,7 @@ categories:
         expected:
           tool_name: "generate_sql"
           must_reference_tables: ["customers"]
+          answer: "alice@example.com"
         metadata:
           description: "Lookup a specific field by customer name"
 
@@ -42,6 +44,7 @@ categories:
         expected:
           tool_name: "generate_sql"
           must_reference_tables: ["customers"]
+          answer: "Alice Johnson, Frank Wilson, and Hassan Ali."
         metadata:
           description: "Filter customers with a WHERE clause"
 
@@ -55,6 +58,7 @@ categories:
         expected:
           tool_name: "generate_sql"
           must_reference_tables: ["products"]
+          answer: "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
         metadata:
           description: "ORDER BY with LIMIT to rank products"
 
@@ -64,6 +68,7 @@ categories:
         expected:
           tool_name: "generate_sql"
           must_reference_tables: ["products"]
+          answer: "Laptop Pro and Wireless Mouse."
         metadata:
           description: "Filter products by category"
 
@@ -77,6 +82,7 @@ categories:
         expected:
           tool_name: "generate_sql"
           must_reference_tables: ["orders"]
+          answer: "Orders 4, 8, and 11 are pending."
         metadata:
           description: "Filter orders by status"
 
@@ -86,6 +92,7 @@ categories:
         expected:
           tool_name: "generate_sql"
           must_reference_tables: ["orders"]
+          answer: "$3029.89"
         metadata:
           description: "Aggregate SUM with a status filter"
 
@@ -95,6 +102,7 @@ categories:
         expected:
           tool_name: "generate_sql"
           must_reference_tables: ["orders"]
+          answer: "5 orders were placed in January 2025."
         metadata:
           description: "COUNT with date range filtering"
 
@@ -104,6 +112,7 @@ categories:
         expected:
           tool_name: "generate_sql"
           must_reference_tables: ["customers", "orders"]
+          answer: "Alice Johnson, Bob Smith, Carlos Garcia, Diana Chen, Eva Mueller, Frank Wilson, Grace Kim, and Hassan Ali."
         metadata:
           description: "JOIN across customers and orders tables"
 
@@ -145,27 +154,33 @@ checks:
     arguments:
       judge_model: "claude-haiku-4-5"
       prompt: |
-        You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.
+        You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.
 
         Question:
-        
+
         ```
         {{$.test_case.input.question}}
         ```
 
+        Expected Answer:
+
+        ```
+        {{$.test_case.expected.answer}}
+        ```
+
         SQL Query Result:
-        
+
         ```
         {{$.output.value.query_result}}
         ```
-        
+
         Agent Response:
-        
+
         ```
         {{$.output.value.response}}
         ```
 
-        Did the agent correctly answer the question based on the data?
+        Did the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.
     metadata:
       name: "Response Quality"
       description: "LLM judges whether the response correctly answers the question"

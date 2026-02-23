@@ -61,6 +61,7 @@ def _make_judge_function(model_name: str) -> Any:
             "input_tokens": result.input_tokens,
             "output_tokens": result.output_tokens,
             "total_cost": result.total_cost,
+            "duration_seconds": result.duration_seconds,
         }
         return result.parsed, metadata
     return _judge

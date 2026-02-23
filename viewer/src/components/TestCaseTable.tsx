@@ -81,12 +81,25 @@ function TestCaseRow({ group, expanded, onToggle }: { group: GroupedTestCase; ex
   const avgDuration =
     group.samples.reduce((sum, s) => sum + s.execution_context.output.metadata.duration_seconds, 0) /
     total
-  const costs = group.samples
-    .map((s) => (s.execution_context.output.value as Record<string, unknown>)?.usage as { total_cost?: number } | undefined)
-    .filter((u): u is { total_cost: number } => u?.total_cost != null)
-  const avgCost = costs.length > 0
-    ? costs.reduce((sum, u) => sum + u.total_cost, 0) / costs.length
-    : null
+  const avgCost = (() => {
+    let totalCost = 0
+    let hasCost = false
+    for (const s of group.samples) {
+      const usage = (s.execution_context.output.value as Record<string, unknown>)?.usage as { total_cost?: number } | undefined
+      if (usage?.total_cost != null) {
+        totalCost += usage.total_cost
+        hasCost = true
+      }
+      for (const check of s.check_results) {
+        const judgeMeta = check.results.judge_metadata
+        if (judgeMeta?.total_cost != null) {
+          totalCost += judgeMeta.total_cost
+          hasCost = true
+        }
+      }
+    }
+    return hasCost ? totalCost / group.samples.length : null
+  })()
 
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm">

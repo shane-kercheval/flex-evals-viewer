@@ -249,7 +249,7 @@ wheels = [
 
 [[package]]
 name = "flex-evals"
-version = "0.3.27"
+version = "0.3.28"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "jsonpath-ng" },
@@ -261,9 +261,9 @@ dependencies = [
     { name = "requests" },
     { name = "ruamel-yaml" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/13/0f/6df948bf82566c7eb72bdc85842b070fbce52ed4eb8f3b59703cf2adfe92/flex_evals-0.3.27.tar.gz", hash = "sha256:4441b095ac4cc18b0433b662b387442096b96a01c0241bb445e20f0e7a7299f9", size = 408615, upload-time = "2026-02-23T06:03:27.229Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/50/cf9d3e11e286a8acfbffa92db1d150f4a867444c76df0730649582e8333c/flex_evals-0.3.28.tar.gz", hash = "sha256:1e3acf9a9c48773fd0c07392c38e6d681c72c551ed40127a75f853efe061b1d7", size = 409074, upload-time = "2026-02-23T23:12:14.023Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/99/67/c919aa1f8ae205e308c8a55cd3c21b7e5576753758d0dab9f6501a00bfa5/flex_evals-0.3.27-py3-none-any.whl", hash = "sha256:87f09b9d691a66da406d81c5f52811a737c644fc9e030a072049448e596250aa", size = 71646, upload-time = "2026-02-23T06:03:25.926Z" },
+    { url = "https://files.pythonhosted.org/packages/28/0d/185665d05045b2292139f23046f35d3afb79bfac04a0953976c43568cfd0/flex_evals-0.3.28-py3-none-any.whl", hash = "sha256:0213e5b44d96f3ac28a0e7e8339ea7cd2acff1aeb2c9669e2687fcbcd6600357", size = 71781, upload-time = "2026-02-23T23:12:12.78Z" },
 ]
 
 [[package]]
@@ -287,7 +287,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "flex-evals", specifier = ">=0.3.27" },
+    { name = "flex-evals", specifier = ">=0.3.28" },
     { name = "sik-llms", specifier = ">=0.3.30" },
 ]
 

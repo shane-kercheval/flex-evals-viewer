@@ -11,6 +11,7 @@ export interface CheckResult {
       input_tokens?: number
       output_tokens?: number
       total_cost?: number
+      duration_seconds?: number
     }
     [key: string]: unknown
   }

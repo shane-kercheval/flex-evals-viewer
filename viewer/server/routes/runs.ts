@@ -83,6 +83,17 @@ router.get('/', async (_req: Request, res: Response) => {
           if (typeof duration === 'number') {
             total_duration += duration
           }
+          // Include judge costs from check results
+          if (Array.isArray(result?.check_results)) {
+            for (const check of result.check_results) {
+              const judgeMeta = check?.results?.judge_metadata
+              if (judgeMeta) {
+                total_cost += judgeMeta.total_cost ?? 0
+                total_input_tokens += judgeMeta.input_tokens ?? 0
+                total_output_tokens += judgeMeta.output_tokens ?? 0
+              }
+            }
+          }
         }
       }
       enrichMetadataFromSamples(data)
