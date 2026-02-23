@@ -1,7 +1,7 @@
 {
-  "evaluation_id": "460a4a79-6074-4b5c-919f-1f5c5717162b",
-  "started_at": "2026-02-23T18:31:13.992370+00:00",
-  "completed_at": "2026-02-23T18:31:18.420660+00:00",
+  "evaluation_id": "4a2cbf1d-4aa7-41a3-ab69-951ba621ae6b",
+  "started_at": "2026-02-23T23:13:02.507219+00:00",
+  "completed_at": "2026-02-23T23:13:09.692237+00:00",
   "status": "completed",
   "summary": {
     "total_test_cases": 20,
@@ -21,7 +21,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
           },
           "metadata": {
             "description": "ORDER BY with LIMIT to rank products"
@@ -34,58 +35,62 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3",
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
             "query_result": {
               "columns": [
                 "id",
                 "name",
                 "category",
-                "price"
+                "price",
+                "stock"
               ],
               "rows": [
                 [
                   1,
                   "Laptop Pro",
                   "Electronics",
-                  1299.99
+                  1299.99,
+                  50
                 ],
                 [
                   5,
                   "Coffee Maker",
                   "Home",
-                  159.99
+                  159.99,
+                  30
                 ],
                 [
                   3,
                   "Running Shoes",
                   "Sports",
-                  89.99
+                  89.99,
+                  100
                 ]
               ],
               "row_count": 3
             },
             "query_success": true,
-            "response": "The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99",
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
             "usage": {
-              "input_tokens": 1019,
-              "output_tokens": 118,
-              "input_cost": 0.001019,
-              "output_cost": 0.00059,
-              "total_cost": 0.0016089999999999998,
-              "duration_seconds": 2.6148430000012013
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.5374807920015883
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.6390841007232666
+            "duration_seconds": 2.5580458641052246
           }
         }
       },
@@ -118,7 +123,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.995475+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029291+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -157,7 +162,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.995647+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029352+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -184,7 +189,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -205,7 +210,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.995737+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029392+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -240,7 +245,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.995898+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029424+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -253,17 +258,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (highest to lowest): Laptop Pro at $1,299.99, Coffee Maker at $159.99, and Running Shoes at $89.99. The agent's response accurately lists these three products in the correct order with their respective categories and prices. The formatting is clear and the information matches the query results exactly.",
+            "reasoning": "The agent's response correctly identifies the top 3 most expensive products in the correct order with accurate pricing information. The SQL query results show: 1) Laptop Pro at $1299.99, 2) Coffee Maker at $159.99, and 3) Running Shoes at $89.99. The agent's response matches these facts exactly, listing all three products with their correct prices in descending order by price. While the wording differs slightly from the expected answer (the agent uses a numbered list format rather than a comma-separated sentence), the factual content is accurate and complete. The data matches the SQL query results perfectly.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 920,
-              "output_tokens": 146,
-              "total_cost": 0.00165
+              "input_tokens": 1005,
+              "output_tokens": 190,
+              "total_cost": 0.001955,
+              "duration_seconds": 2.474659667001106
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99], [5, \"Coffee Maker\", \"Home\", 159.99], [3, \"Running Shoes\", \"Sports\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nWhat are the top 3 most expensive products?\n```\n\nExpected Answer:\n\n```\nLaptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99).\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\n```\n\nAgent Response:\n\n```\nThe top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -271,11 +277,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.999359+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030789+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -302,7 +308,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro and Wireless Mouse."
           },
           "metadata": {
             "description": "Filter products by category"
@@ -315,12 +322,12 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT * FROM products WHERE category = 'Electronics'"
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT * FROM products WHERE category = 'Electronics'",
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
             "query_result": {
               "columns": [
                 "id",
@@ -348,22 +355,22 @@
               "row_count": 2
             },
             "query_success": true,
-            "response": "# Electronics Products\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)",
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
             "usage": {
-              "input_tokens": 998,
-              "output_tokens": 108,
-              "input_cost": 0.000998,
-              "output_cost": 0.0005400000000000001,
-              "total_cost": 0.001538,
-              "duration_seconds": 2.603392625000197
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.4888586250017397
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.6306440830230713
+            "duration_seconds": 2.5086188316345215
           }
         }
       },
@@ -396,7 +403,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996021+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029442+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -435,7 +442,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996061+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029455+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -462,7 +469,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT * FROM products WHERE category = 'Electronics'"
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -483,7 +490,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996117+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029479+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -518,7 +525,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996172+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029509+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -531,17 +538,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (names, prices, and stock quantities) in a clear and well-formatted manner. The response directly addresses the question of listing all products in the Electronics category and presents the data in an organized, user-friendly format.",
+            "reasoning": "The agent correctly identified and listed all products in the Electronics category. The SQL query returned 2 products: \"Laptop Pro\" and \"Wireless Mouse\", both in the Electronics category. The agent's response includes both products with their correct names and additional relevant details (prices and stock levels). While the expected answer was more concise (\"Laptop Pro and Wireless Mouse\"), the agent's response is more detailed and still factually accurate. The agent provided the correct product names and accurate pricing information, which matches the data from the SQL query result. The response fully answers the question asked.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 907,
-              "output_tokens": 143,
-              "total_cost": 0.001622
+              "input_tokens": 966,
+              "output_tokens": 175,
+              "total_cost": 0.001841,
+              "duration_seconds": 2.468007041999954
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: # Electronics Products\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nList all products in the Electronics category.\n```\n\nExpected Answer:\n\n```\nLaptop Pro and Wireless Mouse.\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\n```\n\nAgent Response:\n\n```\nThe products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -549,11 +557,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.043384+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.063912+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -580,7 +588,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
           },
           "metadata": {
             "description": "ORDER BY with LIMIT to rank products"
@@ -593,58 +602,62 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3",
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
             "query_result": {
               "columns": [
                 "id",
                 "name",
                 "category",
-                "price"
+                "price",
+                "stock"
               ],
               "rows": [
                 [
                   1,
                   "Laptop Pro",
                   "Electronics",
-                  1299.99
+                  1299.99,
+                  50
                 ],
                 [
                   5,
                   "Coffee Maker",
                   "Home",
-                  159.99
+                  159.99,
+                  30
                 ],
                 [
                   3,
                   "Running Shoes",
                   "Sports",
-                  89.99
+                  89.99,
+                  100
                 ]
               ],
               "row_count": 3
             },
             "query_success": true,
-            "response": "The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99",
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
             "usage": {
-              "input_tokens": 1019,
-              "output_tokens": 118,
-              "input_cost": 0.001019,
-              "output_cost": 0.00059,
-              "total_cost": 0.0016089999999999998,
-              "duration_seconds": 2.0534518329986895
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.527481249999255
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.0772461891174316
+            "duration_seconds": 2.5532989501953125
           }
         }
       },
@@ -677,7 +690,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996208+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029521+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -716,7 +729,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996240+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029534+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -743,7 +756,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -764,7 +777,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996294+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029554+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -799,7 +812,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996345+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029574+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -812,17 +825,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (highest to lowest): Laptop Pro at $1,299.99, Coffee Maker at $159.99, and Running Shoes at $89.99. The agent's response accurately lists these three products in the correct order with their categories and prices. The formatting is clear and the information matches the query results exactly.",
+            "reasoning": "The agent's response correctly identifies the top 3 most expensive products in the correct order with accurate pricing information. The SQL query results show: 1) Laptop Pro at $1299.99, 2) Coffee Maker at $159.99, and 3) Running Shoes at $89.99. The agent's response matches these facts exactly, presenting them in a clear numbered list format. While the wording differs slightly from the expected answer (using a numbered list instead of a comma-separated format), the factual content is identical and correct. All product names and prices are accurate.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 920,
-              "output_tokens": 145,
-              "total_cost": 0.001645
+              "input_tokens": 1005,
+              "output_tokens": 180,
+              "total_cost": 0.001905,
+              "duration_seconds": 2.289572459005285
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99], [5, \"Coffee Maker\", \"Home\", 159.99], [3, \"Running Shoes\", \"Sports\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nWhat are the top 3 most expensive products?\n```\n\nExpected Answer:\n\n```\nLaptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99).\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\n```\n\nAgent Response:\n\n```\nThe top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -830,11 +844,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.073052+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.088808+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -861,7 +875,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro and Wireless Mouse."
           },
           "metadata": {
             "description": "Filter products by category"
@@ -874,12 +889,12 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT * FROM products WHERE category = 'Electronics'"
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT * FROM products WHERE category = 'Electronics'",
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
             "query_result": {
               "columns": [
                 "id",
@@ -907,22 +922,22 @@
               "row_count": 2
             },
             "query_success": true,
-            "response": "# Electronics Products\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)",
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
             "usage": {
-              "input_tokens": 998,
-              "output_tokens": 108,
-              "input_cost": 0.000998,
-              "output_cost": 0.0005400000000000001,
-              "total_cost": 0.001538,
-              "duration_seconds": 2.4178844159996515
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.5128458330000285
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.450256109237671
+            "duration_seconds": 2.531967878341675
           }
         }
       },
@@ -955,7 +970,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996420+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029586+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -994,7 +1009,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996464+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029598+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -1021,7 +1036,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT * FROM products WHERE category = 'Electronics'"
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -1042,7 +1057,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996524+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029623+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -1077,7 +1092,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996580+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029643+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -1090,17 +1105,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (name, price, and stock quantity) in a clear and well-formatted manner. The information presented matches the query results exactly, and the response directly addresses the user's request to list all products in the Electronics category.",
+            "reasoning": "The agent correctly identified and listed all products in the Electronics category. The SQL query returned 2 products: \"Laptop Pro\" and \"Wireless Mouse\", both in the Electronics category. The agent's response includes both products with their correct names and additional relevant details (prices and stock levels). While the expected answer was more concise (\"Laptop Pro and Wireless Mouse\"), the agent's response is more comprehensive and still factually accurate. The product names match exactly, the category is correct, and the prices and stock information are accurate. The agent successfully answered the question with correct data.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 907,
-              "output_tokens": 143,
-              "total_cost": 0.001622
+              "input_tokens": 966,
+              "output_tokens": 175,
+              "total_cost": 0.001841,
+              "duration_seconds": 2.4770627500038245
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: # Electronics Products\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nList all products in the Electronics category.\n```\n\nExpected Answer:\n\n```\nLaptop Pro and Wireless Mouse.\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\n```\n\nAgent Response:\n\n```\nThe products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -1108,11 +1124,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.097950+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.110359+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -1139,7 +1155,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
           },
           "metadata": {
             "description": "ORDER BY with LIMIT to rank products"
@@ -1152,58 +1169,62 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3",
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
             "query_result": {
               "columns": [
                 "id",
                 "name",
                 "category",
-                "price"
+                "price",
+                "stock"
               ],
               "rows": [
                 [
                   1,
                   "Laptop Pro",
                   "Electronics",
-                  1299.99
+                  1299.99,
+                  50
                 ],
                 [
                   5,
                   "Coffee Maker",
                   "Home",
-                  159.99
+                  159.99,
+                  30
                 ],
                 [
                   3,
                   "Running Shoes",
                   "Sports",
-                  89.99
+                  89.99,
+                  100
                 ]
               ],
               "row_count": 3
             },
             "query_success": true,
-            "response": "The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99",
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
             "usage": {
-              "input_tokens": 1019,
-              "output_tokens": 118,
-              "input_cost": 0.001019,
-              "output_cost": 0.00059,
-              "total_cost": 0.0016089999999999998,
-              "duration_seconds": 2.5301124999987223
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.9889166669963743
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.5650057792663574
+            "duration_seconds": 3.0080792903900146
           }
         }
       },
@@ -1236,7 +1257,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996615+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029656+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -1275,7 +1296,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996645+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029668+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -1302,7 +1323,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -1323,7 +1344,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996691+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029690+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -1358,7 +1379,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996737+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029710+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -1371,17 +1392,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (highest to lowest): Laptop Pro at $1,299.99, Coffee Maker at $159.99, and Running Shoes at $89.99. The agent's response accurately lists these three products in the correct order with their categories and prices matching the data exactly. The formatting is clear and easy to understand.",
+            "reasoning": "The agent's response correctly identifies the top 3 most expensive products in the correct order with accurate pricing information. The SQL query results show: 1) Laptop Pro at $1299.99, 2) Coffee Maker at $159.99, and 3) Running Shoes at $89.99. The agent's response matches these facts exactly, presenting them in a clear numbered list format. While the wording differs slightly from the expected answer (using a numbered list instead of a comma-separated format), the factual content is identical and correct. All product names and prices are accurate.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 920,
-              "output_tokens": 145,
-              "total_cost": 0.001645
+              "input_tokens": 1005,
+              "output_tokens": 180,
+              "total_cost": 0.001905,
+              "duration_seconds": 2.201042916996812
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99], [5, \"Coffee Maker\", \"Home\", 159.99], [3, \"Running Shoes\", \"Sports\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nWhat are the top 3 most expensive products?\n```\n\nExpected Answer:\n\n```\nLaptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99).\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\n```\n\nAgent Response:\n\n```\nThe top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -1389,11 +1411,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.121115+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.130470+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -1420,7 +1442,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro and Wireless Mouse."
           },
           "metadata": {
             "description": "Filter products by category"
@@ -1433,12 +1456,12 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT * FROM products WHERE category = 'Electronics'"
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT * FROM products WHERE category = 'Electronics'",
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
             "query_result": {
               "columns": [
                 "id",
@@ -1466,22 +1489,22 @@
               "row_count": 2
             },
             "query_success": true,
-            "response": "# Products in the Electronics Category\n\nThere are **2 products** in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)",
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
             "usage": {
-              "input_tokens": 998,
-              "output_tokens": 112,
-              "input_cost": 0.000998,
-              "output_cost": 0.0005600000000000001,
-              "total_cost": 0.001558,
-              "duration_seconds": 2.1663449159987067
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 3.437468333002471
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.1898090839385986
+            "duration_seconds": 3.4582831859588623
           }
         }
       },
@@ -1514,7 +1537,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996766+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029723+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -1553,7 +1576,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996795+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029736+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -1580,7 +1603,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT * FROM products WHERE category = 'Electronics'"
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -1601,7 +1624,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996840+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029756+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -1636,7 +1659,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996884+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029775+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -1649,17 +1672,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their correct names, prices, and stock quantities. The information is presented clearly and completely matches the data from the query result.",
+            "reasoning": "The agent correctly identified and listed all products in the Electronics category. The SQL query returned 2 products: \"Laptop Pro\" and \"Wireless Mouse\", both in the Electronics category. The agent's response includes both products with their correct names and additional relevant details (prices and stock levels). While the expected answer was more concise (\"Laptop Pro and Wireless Mouse\"), the agent's response is more comprehensive and still factually correct. The product names match exactly, the category is correct, and the additional data provided (prices and stock) are accurate according to the SQL results. The agent successfully answered the question.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 911,
-              "output_tokens": 120,
-              "total_cost": 0.001511
+              "input_tokens": 966,
+              "output_tokens": 181,
+              "total_cost": 0.001871,
+              "duration_seconds": 2.415431000001263
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: # Products in the Electronics Category\n\nThere are **2 products** in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nList all products in the Electronics category.\n```\n\nExpected Answer:\n\n```\nLaptop Pro and Wireless Mouse.\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\n```\n\nAgent Response:\n\n```\nThe products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -1667,11 +1691,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.143817+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.149602+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -1698,7 +1722,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
           },
           "metadata": {
             "description": "ORDER BY with LIMIT to rank products"
@@ -1711,58 +1736,62 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3",
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
             "query_result": {
               "columns": [
                 "id",
                 "name",
                 "category",
-                "price"
+                "price",
+                "stock"
               ],
               "rows": [
                 [
                   1,
                   "Laptop Pro",
                   "Electronics",
-                  1299.99
+                  1299.99,
+                  50
                 ],
                 [
                   5,
                   "Coffee Maker",
                   "Home",
-                  159.99
+                  159.99,
+                  30
                 ],
                 [
                   3,
                   "Running Shoes",
                   "Sports",
-                  89.99
+                  89.99,
+                  100
                 ]
               ],
               "row_count": 3
             },
             "query_success": true,
-            "response": "# Top 3 Most Expensive Products\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nThe Laptop Pro is significantly more expensive than the other two products, costing nearly 8 times more than the Coffee Maker.",
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
             "usage": {
-              "input_tokens": 1019,
-              "output_tokens": 146,
-              "input_cost": 0.001019,
-              "output_cost": 0.0007300000000000001,
-              "total_cost": 0.001749,
-              "duration_seconds": 3.03263029199843
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.5141595419991063
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 3.05999493598938
+            "duration_seconds": 2.533806085586548
           }
         }
       },
@@ -1795,7 +1824,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996912+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029787+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -1834,7 +1863,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996941+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029799+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -1861,7 +1890,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -1882,7 +1911,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.996985+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029820+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -1917,7 +1946,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997029+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029840+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -1930,17 +1959,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query result returned 3 products sorted by price in descending order (most expensive first), and the agent accurately presented all three products with their correct names, categories, and prices. The formatting is clear and well-organized, and the additional observation about the Laptop Pro being significantly more expensive than the other products is accurate and helpful. The response directly addresses the question asked.",
+            "reasoning": "The agent's response correctly identifies the top 3 most expensive products in the correct order with accurate pricing information. The SQL query results show: 1) Laptop Pro at $1299.99, 2) Coffee Maker at $159.99, and 3) Running Shoes at $89.99. The agent's response matches these facts exactly, presenting them in a clear numbered list format. While the wording differs slightly from the expected answer (using a numbered list instead of a comma-separated format), the factual content is accurate and complete. All product names and prices are correct.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 948,
-              "output_tokens": 140,
-              "total_cost": 0.0016480000000000002
+              "input_tokens": 1005,
+              "output_tokens": 180,
+              "total_cost": 0.001905,
+              "duration_seconds": 2.2721301249985117
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99], [5, \"Coffee Maker\", \"Home\", 159.99], [3, \"Running Shoes\", \"Sports\", 89.99]], \"row_count\": 3}\nAgent Response: # Top 3 Most Expensive Products\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nThe Laptop Pro is significantly more expensive than the other two products, costing nearly 8 times more than the Coffee Maker.\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nWhat are the top 3 most expensive products?\n```\n\nExpected Answer:\n\n```\nLaptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99).\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\n```\n\nAgent Response:\n\n```\nThe top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -1948,11 +1978,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.166490+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.168470+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -1979,7 +2009,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro and Wireless Mouse."
           },
           "metadata": {
             "description": "Filter products by category"
@@ -1992,12 +2023,12 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT * FROM products WHERE category = 'Electronics'"
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT * FROM products WHERE category = 'Electronics'",
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
             "query_result": {
               "columns": [
                 "id",
@@ -2025,22 +2056,22 @@
               "row_count": 2
             },
             "query_success": true,
-            "response": "# Electronics Products\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)",
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200",
             "usage": {
-              "input_tokens": 998,
-              "output_tokens": 108,
-              "input_cost": 0.000998,
-              "output_cost": 0.0005400000000000001,
-              "total_cost": 0.001538,
-              "duration_seconds": 1.9881078329981392
+              "input_tokens": 351,
+              "output_tokens": 66,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.96e-05,
+              "total_cost": 9.224999999999999e-05,
+              "duration_seconds": 2.505135084000358
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.0153086185455322
+            "duration_seconds": 2.5243382453918457
           }
         }
       },
@@ -2073,7 +2104,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997058+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029852+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -2112,7 +2143,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997084+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029864+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -2139,7 +2170,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT * FROM products WHERE category = 'Electronics'"
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -2160,7 +2191,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997131+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029885+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -2195,7 +2226,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997175+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029904+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -2208,17 +2239,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their correct names, prices, and stock quantities. The formatting is clear and well-organized, making it easy to understand. All information presented matches the query results exactly.",
+            "reasoning": "The agent correctly identified and listed all products in the Electronics category. The SQL query returned 2 products: \"Laptop Pro\" and \"Wireless Mouse\", both in the Electronics category. The agent's response includes both products with their correct names and additional relevant details (prices and stock levels). While the expected answer was more concise (\"Laptop Pro and Wireless Mouse\"), the agent's response is more detailed and still factually accurate. The agent provided the correct product names and accurate pricing information ($1299.99 for Laptop Pro and $29.99 for Wireless Mouse). The response fully answers the question asked.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 907,
-              "output_tokens": 129,
-              "total_cost": 0.001552
+              "input_tokens": 966,
+              "output_tokens": 185,
+              "total_cost": 0.0018909999999999999,
+              "duration_seconds": 2.26601383399975
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: # Electronics Products\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nList all products in the Electronics category.\n```\n\nExpected Answer:\n\n```\nLaptop Pro and Wireless Mouse.\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\n```\n\nAgent Response:\n\n```\nThe products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -2226,11 +2258,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.189605+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.187489+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -2257,7 +2289,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
           },
           "metadata": {
             "description": "ORDER BY with LIMIT to rank products"
@@ -2270,58 +2303,50 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+                  "sql": "SELECT name, price FROM products ORDER BY price DESC LIMIT 3;"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3",
+            "sql_query": "SELECT name, price FROM products ORDER BY price DESC LIMIT 3;",
             "query_result": {
               "columns": [
-                "id",
                 "name",
-                "category",
                 "price"
               ],
               "rows": [
                 [
-                  1,
                   "Laptop Pro",
-                  "Electronics",
                   1299.99
                 ],
                 [
-                  5,
                   "Coffee Maker",
-                  "Home",
                   159.99
                 ],
                 [
-                  3,
                   "Running Shoes",
-                  "Sports",
                   89.99
                 ]
               ],
               "row_count": 3
             },
             "query_success": true,
-            "response": "The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99",
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
             "usage": {
-              "input_tokens": 1019,
-              "output_tokens": 118,
-              "input_cost": 0.001019,
-              "output_cost": 0.00059,
-              "total_cost": 0.0016089999999999998,
-              "duration_seconds": 1.9059379999998782
+              "input_tokens": 338,
+              "output_tokens": 66,
+              "input_cost": 5.07e-05,
+              "output_cost": 3.96e-05,
+              "total_cost": 9.03e-05,
+              "duration_seconds": 2.324564458001987
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 1.9309971332550049
+            "duration_seconds": 2.3436882495880127
           }
         }
       },
@@ -2354,7 +2379,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997203+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029916+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -2393,7 +2418,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997232+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029930+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -2420,7 +2445,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+              "value": "SELECT name, price FROM products ORDER BY price DESC LIMIT 3;"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -2441,7 +2466,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997276+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029952+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -2476,7 +2501,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997328+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029971+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -2489,17 +2514,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (from highest to lowest: $1,299.99, $159.99, $89.99), and the agent's response accurately lists all three products with their correct names, categories, and prices in the same order. The formatting is clear and easy to understand.",
+            "reasoning": "The agent's response correctly identifies the top 3 most expensive products with accurate pricing information. The response includes:\n1. Laptop Pro at $1299.99 (correct)\n2. Coffee Maker at $159.99 (correct)\n3. Running Shoes at $89.99 (correct)\n\nThe products are listed in the correct order from most to least expensive, and all prices match the SQL query results exactly. While the wording differs slightly from the expected answer (using a numbered list format instead of a comma-separated format), the factual content is accurate and complete. The agent successfully answered the question with the correct data.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 920,
-              "output_tokens": 134,
-              "total_cost": 0.0015899999999999998
+              "input_tokens": 970,
+              "output_tokens": 193,
+              "total_cost": 0.001935,
+              "duration_seconds": 2.033054583000194
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99], [5, \"Coffee Maker\", \"Home\", 159.99], [3, \"Running Shoes\", \"Sports\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nWhat are the top 3 most expensive products?\n```\n\nExpected Answer:\n\n```\nLaptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99).\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"name\", \"price\"], \"rows\": [[\"Laptop Pro\", 1299.99], [\"Coffee Maker\", 159.99], [\"Running Shoes\", 89.99]], \"row_count\": 3}\n```\n\nAgent Response:\n\n```\nThe top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -2507,11 +2533,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.213747+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.210099+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -2538,7 +2564,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro and Wireless Mouse."
           },
           "metadata": {
             "description": "Filter products by category"
@@ -2551,12 +2578,12 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT * FROM products WHERE category = 'Electronics'"
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT * FROM products WHERE category = 'Electronics'",
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
             "query_result": {
               "columns": [
                 "id",
@@ -2584,22 +2611,22 @@
               "row_count": 2
             },
             "query_success": true,
-            "response": "# Electronics Products\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)",
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
             "usage": {
-              "input_tokens": 998,
-              "output_tokens": 108,
-              "input_cost": 0.000998,
-              "output_cost": 0.0005400000000000001,
-              "total_cost": 0.001538,
-              "duration_seconds": 2.095779040999332
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.452169666001282
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.119300127029419
+            "duration_seconds": 2.4722559452056885
           }
         }
       },
@@ -2632,7 +2659,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997355+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029983+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -2671,7 +2698,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997383+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.029995+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -2698,7 +2725,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT * FROM products WHERE category = 'Electronics'"
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -2719,7 +2746,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997430+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030016+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -2754,7 +2781,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997494+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030035+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -2767,17 +2794,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (names, prices, and stock quantities) in a clear and well-formatted manner. The response directly addresses the question of listing all products in the Electronics category and presents the data in an easy-to-read format.",
+            "reasoning": "The agent correctly identified and listed all products in the Electronics category. The SQL query returned 2 products: \"Laptop Pro\" and \"Wireless Mouse\", both in the Electronics category. The agent's response includes both products with their correct names and additional relevant details (prices and stock levels). While the expected answer was more concise (\"Laptop Pro and Wireless Mouse\"), the agent's response is more informative and still factually correct. The product names match exactly, and the additional data provided (prices and stock) are accurate according to the query results. The agent successfully answered the question with correct facts and data.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 907,
-              "output_tokens": 143,
-              "total_cost": 0.001622
+              "input_tokens": 966,
+              "output_tokens": 182,
+              "total_cost": 0.001876,
+              "duration_seconds": 2.325158999999985
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: # Electronics Products\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nList all products in the Electronics category.\n```\n\nExpected Answer:\n\n```\nLaptop Pro and Wireless Mouse.\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\n```\n\nAgent Response:\n\n```\nThe products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -2785,11 +2813,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.237703+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.236468+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -2816,7 +2844,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
           },
           "metadata": {
             "description": "ORDER BY with LIMIT to rank products"
@@ -2829,58 +2858,62 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3",
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
             "query_result": {
               "columns": [
                 "id",
                 "name",
                 "category",
-                "price"
+                "price",
+                "stock"
               ],
               "rows": [
                 [
                   1,
                   "Laptop Pro",
                   "Electronics",
-                  1299.99
+                  1299.99,
+                  50
                 ],
                 [
                   5,
                   "Coffee Maker",
                   "Home",
-                  159.99
+                  159.99,
+                  30
                 ],
                 [
                   3,
                   "Running Shoes",
                   "Sports",
-                  89.99
+                  89.99,
+                  100
                 ]
               ],
               "row_count": 3
             },
             "query_success": true,
-            "response": "The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99",
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
             "usage": {
-              "input_tokens": 1019,
-              "output_tokens": 118,
-              "input_cost": 0.001019,
-              "output_cost": 0.00059,
-              "total_cost": 0.0016089999999999998,
-              "duration_seconds": 3.109894291999808
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.6750622500039754
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 3.1336021423339844
+            "duration_seconds": 2.69482684135437
           }
         }
       },
@@ -2913,7 +2946,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997522+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030047+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -2952,7 +2985,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997552+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030059+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -2979,7 +3012,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -3000,7 +3033,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997596+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030081+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -3035,7 +3068,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997640+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030101+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -3048,17 +3081,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (highest to lowest), and the agent accurately identified and presented all three products with their correct names, categories, and prices. The formatting is clear and the information matches the database results exactly.",
+            "reasoning": "The agent's response correctly identifies the top 3 most expensive products in the correct order with accurate pricing information. The SQL query results show: 1) Laptop Pro at $1299.99, 2) Coffee Maker at $159.99, and 3) Running Shoes at $89.99. The agent's response matches these facts exactly, presenting them in a clear numbered list format. While the wording differs slightly from the expected answer (using a numbered list instead of a comma-separated format), the factual content is completely accurate and the data matches the query results precisely.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 920,
-              "output_tokens": 116,
-              "total_cost": 0.0015
+              "input_tokens": 1005,
+              "output_tokens": 179,
+              "total_cost": 0.0019000000000000002,
+              "duration_seconds": 2.3072247079981025
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99], [5, \"Coffee Maker\", \"Home\", 159.99], [3, \"Running Shoes\", \"Sports\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nWhat are the top 3 most expensive products?\n```\n\nExpected Answer:\n\n```\nLaptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99).\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\n```\n\nAgent Response:\n\n```\nThe top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -3066,11 +3100,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.261494+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.264092+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -3097,7 +3131,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro and Wireless Mouse."
           },
           "metadata": {
             "description": "Filter products by category"
@@ -3110,12 +3145,12 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT * FROM products WHERE category = 'Electronics'"
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT * FROM products WHERE category = 'Electronics'",
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
             "query_result": {
               "columns": [
                 "id",
@@ -3143,22 +3178,22 @@
               "row_count": 2
             },
             "query_success": true,
-            "response": "# Products in the Electronics Category\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)",
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200",
             "usage": {
-              "input_tokens": 998,
-              "output_tokens": 111,
-              "input_cost": 0.000998,
-              "output_cost": 0.000555,
-              "total_cost": 0.0015530000000000001,
-              "duration_seconds": 2.9259710009991977
+              "input_tokens": 351,
+              "output_tokens": 66,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.96e-05,
+              "total_cost": 9.224999999999999e-05,
+              "duration_seconds": 2.5604874590062536
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.965646743774414
+            "duration_seconds": 2.5822038650512695
           }
         }
       },
@@ -3191,7 +3226,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997669+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030115+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -3230,7 +3265,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997696+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030127+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -3257,7 +3292,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT * FROM products WHERE category = 'Electronics'"
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -3278,7 +3313,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997740+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030146+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -3313,7 +3348,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997781+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030166+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -3326,17 +3361,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (names, prices, and stock quantities) in a clear and well-formatted manner. The response directly addresses the question of listing all products in the Electronics category and presents the data in an easy-to-read format.",
+            "reasoning": "The agent correctly identified and listed all products in the Electronics category from the SQL query results. The response includes both \"Laptop Pro\" and \"Wireless Mouse,\" which matches the expected answer. While the agent provided additional details (prices and stock quantities) beyond the expected answer, this is not incorrect\u2014it's actually more informative. The core facts are accurate: both products are correctly named and correctly identified as being in the Electronics category. The wording differs from the expected answer but conveys the same essential information correctly.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 910,
-              "output_tokens": 143,
-              "total_cost": 0.0016250000000000001
+              "input_tokens": 966,
+              "output_tokens": 161,
+              "total_cost": 0.001771,
+              "duration_seconds": 2.109987000003457
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: # Products in the Electronics Category\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nList all products in the Electronics category.\n```\n\nExpected Answer:\n\n```\nLaptop Pro and Wireless Mouse.\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\n```\n\nAgent Response:\n\n```\nThe products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -3344,11 +3380,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.284798+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.286107+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -3375,7 +3411,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
           },
           "metadata": {
             "description": "ORDER BY with LIMIT to rank products"
@@ -3388,58 +3425,62 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3",
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
             "query_result": {
               "columns": [
                 "id",
                 "name",
                 "category",
-                "price"
+                "price",
+                "stock"
               ],
               "rows": [
                 [
                   1,
                   "Laptop Pro",
                   "Electronics",
-                  1299.99
+                  1299.99,
+                  50
                 ],
                 [
                   5,
                   "Coffee Maker",
                   "Home",
-                  159.99
+                  159.99,
+                  30
                 ],
                 [
                   3,
                   "Running Shoes",
                   "Sports",
-                  89.99
+                  89.99,
+                  100
                 ]
               ],
               "row_count": 3
             },
             "query_success": true,
-            "response": "The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99",
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
             "usage": {
-              "input_tokens": 1019,
-              "output_tokens": 118,
-              "input_cost": 0.001019,
-              "output_cost": 0.00059,
-              "total_cost": 0.0016089999999999998,
-              "duration_seconds": 2.760969541999657
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.4949802919945796
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.7876601219177246
+            "duration_seconds": 2.517918109893799
           }
         }
       },
@@ -3472,7 +3513,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997808+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030179+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -3511,7 +3552,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997834+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030191+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -3538,7 +3579,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -3559,7 +3600,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997879+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030212+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -3594,7 +3635,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997921+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030231+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -3607,17 +3648,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (from highest to lowest), and the agent accurately listed all three products with their correct names, categories, and prices. The formatting is clear and the information matches the data exactly: Laptop Pro at $1,299.99, Coffee Maker at $159.99, and Running Shoes at $89.99.",
+            "reasoning": "The agent's response correctly identifies the top 3 most expensive products with accurate pricing information. The SQL query results show three products ranked by price: Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99). The agent's response lists all three products in the correct order of descending price with the correct prices. While the formatting differs slightly from the expected answer (using a numbered list instead of a comma-separated format), the facts and data are entirely correct. The product names and prices match exactly, and the ranking is accurate.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 920,
-              "output_tokens": 144,
-              "total_cost": 0.00164
+              "input_tokens": 1005,
+              "output_tokens": 176,
+              "total_cost": 0.001885,
+              "duration_seconds": 2.085953541994968
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99], [5, \"Coffee Maker\", \"Home\", 159.99], [3, \"Running Shoes\", \"Sports\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nWhat are the top 3 most expensive products?\n```\n\nExpected Answer:\n\n```\nLaptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99).\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\n```\n\nAgent Response:\n\n```\nThe top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -3625,11 +3667,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.308940+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.307678+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -3656,7 +3698,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro and Wireless Mouse."
           },
           "metadata": {
             "description": "Filter products by category"
@@ -3669,12 +3712,12 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT * FROM products WHERE category = 'Electronics'"
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT * FROM products WHERE category = 'Electronics'",
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
             "query_result": {
               "columns": [
                 "id",
@@ -3702,22 +3745,22 @@
               "row_count": 2
             },
             "query_success": true,
-            "response": "# Electronics Products\n\nHere are all the products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nThere are 2 products total in the Electronics category.",
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
             "usage": {
-              "input_tokens": 998,
-              "output_tokens": 120,
-              "input_cost": 0.000998,
-              "output_cost": 0.0006000000000000001,
-              "total_cost": 0.001598,
-              "duration_seconds": 1.9471168330001092
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.982831041001191
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 1.9772989749908447
+            "duration_seconds": 3.007335901260376
           }
         }
       },
@@ -3750,7 +3793,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997947+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030243+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -3789,7 +3832,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.997976+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030257+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -3816,7 +3859,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT * FROM products WHERE category = 'Electronics'"
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -3837,7 +3880,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998019+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030278+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -3872,7 +3915,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998060+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030298+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -3885,17 +3928,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (name, price, and stock quantity) extracted from the query results. The formatting is clear and well-organized, and the agent correctly stated there are 2 products total in the Electronics category, which matches the row_count from the query result.",
+            "reasoning": "The agent correctly identified and listed all products in the Electronics category. The SQL query returned 2 products: \"Laptop Pro\" and \"Wireless Mouse\", both in the Electronics category. The agent's response includes both products with their correct names and additional relevant details (prices and stock levels). While the expected answer was more concise (\"Laptop Pro and Wireless Mouse\"), the agent's response is more informative and still factually correct. The product names match exactly, the category is correct, and the prices and stock information are accurate. The agent successfully answered the question with correct data.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 919,
-              "output_tokens": 150,
-              "total_cost": 0.001669
+              "input_tokens": 966,
+              "output_tokens": 176,
+              "total_cost": 0.001846,
+              "duration_seconds": 2.467295040994941
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: # Electronics Products\n\nHere are all the products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nThere are 2 products total in the Electronics category.\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nList all products in the Electronics category.\n```\n\nExpected Answer:\n\n```\nLaptop Pro and Wireless Mouse.\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\n```\n\nAgent Response:\n\n```\nThe products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -3903,11 +3947,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.334268+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.328548+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -3934,7 +3978,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
           },
           "metadata": {
             "description": "ORDER BY with LIMIT to rank products"
@@ -3947,58 +3992,62 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3",
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
             "query_result": {
               "columns": [
                 "id",
                 "name",
                 "category",
-                "price"
+                "price",
+                "stock"
               ],
               "rows": [
                 [
                   1,
                   "Laptop Pro",
                   "Electronics",
-                  1299.99
+                  1299.99,
+                  50
                 ],
                 [
                   5,
                   "Coffee Maker",
                   "Home",
-                  159.99
+                  159.99,
+                  30
                 ],
                 [
                   3,
                   "Running Shoes",
                   "Sports",
-                  89.99
+                  89.99,
+                  100
                 ]
               ],
               "row_count": 3
             },
             "query_success": true,
-            "response": "The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99",
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
             "usage": {
-              "input_tokens": 1019,
-              "output_tokens": 118,
-              "input_cost": 0.001019,
-              "output_cost": 0.00059,
-              "total_cost": 0.0016089999999999998,
-              "duration_seconds": 3.0389804169990384
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.208943082994665
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 3.0692930221557617
+            "duration_seconds": 2.228097915649414
           }
         }
       },
@@ -4031,7 +4080,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998089+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030310+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -4070,7 +4119,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998117+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030323+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -4097,7 +4146,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -4118,7 +4167,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998161+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030342+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -4153,7 +4202,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998202+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030363+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -4166,17 +4215,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (most expensive first), and the agent accurately listed all three products with their correct names, categories, and prices. The formatting is clear and the information matches the data exactly: Laptop Pro at $1,299.99, Coffee Maker at $159.99, and Running Shoes at $89.99.",
+            "reasoning": "The agent's response correctly identifies the top 3 most expensive products in the correct order with accurate pricing information. The SQL query results show: 1) Laptop Pro at $1299.99, 2) Coffee Maker at $159.99, and 3) Running Shoes at $89.99. The agent's response matches these facts exactly. While the wording differs slightly from the expected answer (the agent uses a numbered list format rather than a comma-separated sentence), the factual content is identical and correct. All product names and prices are accurate.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 920,
-              "output_tokens": 143,
-              "total_cost": 0.001635
+              "input_tokens": 1005,
+              "output_tokens": 174,
+              "total_cost": 0.0018750000000000001,
+              "duration_seconds": 2.0824284580012318
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99], [5, \"Coffee Maker\", \"Home\", 159.99], [3, \"Running Shoes\", \"Sports\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nWhat are the top 3 most expensive products?\n```\n\nExpected Answer:\n\n```\nLaptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99).\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\n```\n\nAgent Response:\n\n```\nThe top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -4184,11 +4234,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.358298+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.347790+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -4215,7 +4265,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro and Wireless Mouse."
           },
           "metadata": {
             "description": "Filter products by category"
@@ -4228,12 +4279,12 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT * FROM products WHERE category = 'Electronics'"
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT * FROM products WHERE category = 'Electronics'",
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
             "query_result": {
               "columns": [
                 "id",
@@ -4261,22 +4312,22 @@
               "row_count": 2
             },
             "query_success": true,
-            "response": "# Electronics Products\n\nHere are all the products in the Electronics category:\n\n1. **Laptop Pro**\n   - Price: $1,299.99\n   - Stock: 50 units\n\n2. **Wireless Mouse**\n   - Price: $29.99\n   - Stock: 200 units\n\nThere are 2 products total in the Electronics category.",
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
             "usage": {
-              "input_tokens": 998,
-              "output_tokens": 132,
-              "input_cost": 0.000998,
-              "output_cost": 0.00066,
-              "total_cost": 0.0016580000000000002,
-              "duration_seconds": 2.455883124997854
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 3.3516874999986612
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.4849660396575928
+            "duration_seconds": 3.3703839778900146
           }
         }
       },
@@ -4309,7 +4360,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998231+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030375+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -4348,7 +4399,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998259+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030387+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -4375,7 +4426,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT * FROM products WHERE category = 'Electronics'"
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -4396,7 +4447,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998305+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030407+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -4431,7 +4482,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998348+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030425+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -4444,17 +4495,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with all relevant details (name, price, and stock) from the query results. The formatting is clear and well-organized, and the agent correctly identified the total count of 2 products. All information presented matches the data provided in the SQL query result.",
+            "reasoning": "The agent correctly identified and listed all products in the Electronics category. The SQL query returned 2 products: \"Laptop Pro\" and \"Wireless Mouse\", both in the Electronics category. The agent's response includes both products with their correct names and additional relevant details (prices and stock levels). While the expected answer was more concise (\"Laptop Pro and Wireless Mouse\"), the agent's response is more detailed and still factually accurate. The agent provided the correct product names and accurate pricing information, which satisfies the requirement that \"facts and data must be correct.\" The additional information (prices and stock) does not contradict the expected answer and represents a reasonable enhancement to the response.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 931,
-              "output_tokens": 147,
-              "total_cost": 0.001666
+              "input_tokens": 966,
+              "output_tokens": 195,
+              "total_cost": 0.001941,
+              "duration_seconds": 2.392302375003055
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: # Electronics Products\n\nHere are all the products in the Electronics category:\n\n1. **Laptop Pro**\n   - Price: $1,299.99\n   - Stock: 50 units\n\n2. **Wireless Mouse**\n   - Price: $29.99\n   - Stock: 200 units\n\nThere are 2 products total in the Electronics category.\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nList all products in the Electronics category.\n```\n\nExpected Answer:\n\n```\nLaptop Pro and Wireless Mouse.\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\n```\n\nAgent Response:\n\n```\nThe products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -4462,11 +4514,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.381806+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.366882+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -4493,7 +4545,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
           },
           "metadata": {
             "description": "ORDER BY with LIMIT to rank products"
@@ -4506,58 +4559,62 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3",
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
             "query_result": {
               "columns": [
                 "id",
                 "name",
                 "category",
-                "price"
+                "price",
+                "stock"
               ],
               "rows": [
                 [
                   1,
                   "Laptop Pro",
                   "Electronics",
-                  1299.99
+                  1299.99,
+                  50
                 ],
                 [
                   5,
                   "Coffee Maker",
                   "Home",
-                  159.99
+                  159.99,
+                  30
                 ],
                 [
                   3,
                   "Running Shoes",
                   "Sports",
-                  89.99
+                  89.99,
+                  100
                 ]
               ],
               "row_count": 3
             },
             "query_success": true,
-            "response": "The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99",
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
             "usage": {
-              "input_tokens": 1019,
-              "output_tokens": 118,
-              "input_cost": 0.001019,
-              "output_cost": 0.00059,
-              "total_cost": 0.0016089999999999998,
-              "duration_seconds": 2.3984509160000016
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.2224634579906706
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.422189712524414
+            "duration_seconds": 2.241868257522583
           }
         }
       },
@@ -4590,7 +4647,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998409+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030437+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -4629,7 +4686,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998462+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030451+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -4656,7 +4713,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -4677,7 +4734,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998534+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030471+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -4712,7 +4769,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998582+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030491+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -4725,17 +4782,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (from highest to lowest): Laptop Pro at $1,299.99, Coffee Maker at $159.99, and Running Shoes at $89.99. The agent's response accurately lists these same 3 products in the correct order with their categories and prices matching the data exactly. The formatting is clear and well-presented.",
+            "reasoning": "The agent's response correctly identifies the top 3 most expensive products in the correct order with accurate pricing information. The SQL query results show: 1) Laptop Pro at $1299.99, 2) Coffee Maker at $159.99, and 3) Running Shoes at $89.99. The agent's response matches these facts exactly. While the wording differs slightly from the expected answer (using a numbered list format instead of a comma-separated sentence), the factual content is identical and correct. All product names and prices are accurate.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 920,
-              "output_tokens": 149,
-              "total_cost": 0.001665
+              "input_tokens": 1005,
+              "output_tokens": 172,
+              "total_cost": 0.0018650000000000001,
+              "duration_seconds": 2.591781750001246
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99], [5, \"Coffee Maker\", \"Home\", 159.99], [3, \"Running Shoes\", \"Sports\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nWhat are the top 3 most expensive products?\n```\n\nExpected Answer:\n\n```\nLaptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99).\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\n```\n\nAgent Response:\n\n```\nThe top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -4743,11 +4801,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.405245+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.385690+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -4774,7 +4832,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro and Wireless Mouse."
           },
           "metadata": {
             "description": "Filter products by category"
@@ -4787,12 +4846,12 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT * FROM products WHERE category = 'Electronics'"
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT * FROM products WHERE category = 'Electronics'",
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
             "query_result": {
               "columns": [
                 "id",
@@ -4820,22 +4879,22 @@
               "row_count": 2
             },
             "query_success": true,
-            "response": "# Electronics Products\n\nHere are all the products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nThere are 2 products total in the Electronics category.",
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
             "usage": {
-              "input_tokens": 998,
-              "output_tokens": 120,
-              "input_cost": 0.000998,
-              "output_cost": 0.0006000000000000001,
-              "total_cost": 0.001598,
-              "duration_seconds": 2.05718454199814
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.375196125001821
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 2.0934836864471436
+            "duration_seconds": 2.394458055496216
           }
         }
       },
@@ -4868,7 +4927,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998613+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030504+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -4907,7 +4966,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998643+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030516+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -4934,7 +4993,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT * FROM products WHERE category = 'Electronics'"
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -4955,7 +5014,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998689+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030536+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -4990,7 +5049,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998732+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030562+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -5003,17 +5062,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (name, price, and stock quantity) in a clear, well-formatted manner. The agent also correctly stated the total count of 2 products. All information presented matches the query results exactly.",
+            "reasoning": "The agent correctly identified and listed all products in the Electronics category. The SQL query returned 2 products: \"Laptop Pro\" and \"Wireless Mouse\", both in the Electronics category. The agent's response includes both products with their correct names and additional relevant details (prices and stock levels). While the expected answer was more concise (\"Laptop Pro and Wireless Mouse\"), the agent's response is more informative and still factually correct. The product names match exactly, and the data presented (prices and stock) are accurate according to the SQL query results. The agent successfully answered the question with correct facts and data.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 919,
-              "output_tokens": 139,
-              "total_cost": 0.001614
+              "input_tokens": 966,
+              "output_tokens": 182,
+              "total_cost": 0.001876,
+              "duration_seconds": 2.1560974169988185
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: # Electronics Products\n\nHere are all the products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nThere are 2 products total in the Electronics category.\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nList all products in the Electronics category.\n```\n\nExpected Answer:\n\n```\nLaptop Pro and Wireless Mouse.\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\n```\n\nAgent Response:\n\n```\nThe products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -5021,11 +5081,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.428445+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.404632+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -5052,7 +5112,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99)."
           },
           "metadata": {
             "description": "ORDER BY with LIMIT to rank products"
@@ -5065,58 +5126,62 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3",
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
             "query_result": {
               "columns": [
                 "id",
                 "name",
                 "category",
-                "price"
+                "price",
+                "stock"
               ],
               "rows": [
                 [
                   1,
                   "Laptop Pro",
                   "Electronics",
-                  1299.99
+                  1299.99,
+                  50
                 ],
                 [
                   5,
                   "Coffee Maker",
                   "Home",
-                  159.99
+                  159.99,
+                  30
                 ],
                 [
                   3,
                   "Running Shoes",
                   "Sports",
-                  89.99
+                  89.99,
+                  100
                 ]
               ],
               "row_count": 3
             },
             "query_success": true,
-            "response": "The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99",
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
             "usage": {
-              "input_tokens": 1019,
-              "output_tokens": 118,
-              "input_cost": 0.001019,
-              "output_cost": 0.00059,
-              "total_cost": 0.0016089999999999998,
-              "duration_seconds": 1.8593226239991054
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.4485155419970397
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 1.8822650909423828
+            "duration_seconds": 2.4672679901123047
           }
         }
       },
@@ -5149,7 +5214,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998761+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030575+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -5188,7 +5253,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998790+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030588+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -5215,7 +5280,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT id, name, category, price FROM products ORDER BY price DESC LIMIT 3"
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -5236,7 +5301,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998835+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030608+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -5271,7 +5336,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998878+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030627+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -5284,17 +5349,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (from highest to lowest): Laptop Pro at $1,299.99, Coffee Maker at $159.99, and Running Shoes at $89.99. The agent's response accurately lists these same three products in the correct order with their respective categories and prices. The formatting is clear and the information matches the query results exactly.",
+            "reasoning": "The agent's response correctly identifies the top 3 most expensive products in the correct order with accurate pricing information. The SQL query result shows three products ranked by price (highest to lowest): Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99). The agent's response lists all three products with their exact prices in the correct descending order. While the formatting differs slightly from the expected answer (using a numbered list instead of a comma-separated format), the factual content is accurate and complete. All product names and prices match the query results exactly.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 920,
-              "output_tokens": 148,
-              "total_cost": 0.00166
+              "input_tokens": 1005,
+              "output_tokens": 180,
+              "total_cost": 0.001905,
+              "duration_seconds": 2.110325792004005
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99], [5, \"Coffee Maker\", \"Home\", 159.99], [3, \"Running Shoes\", \"Sports\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. **Laptop Pro** (Electronics) - $1,299.99\n2. **Coffee Maker** (Home) - $159.99\n3. **Running Shoes** (Sports) - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nWhat are the top 3 most expensive products?\n```\n\nExpected Answer:\n\n```\nLaptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99).\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\n```\n\nAgent Response:\n\n```\nThe top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -5302,11 +5368,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.451680+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.423627+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -5333,7 +5399,8 @@
             "tool_name": "generate_sql",
             "must_reference_tables": [
               "products"
-            ]
+            ],
+            "answer": "Laptop Pro and Wireless Mouse."
           },
           "metadata": {
             "description": "Filter products by category"
@@ -5346,12 +5413,12 @@
               {
                 "tool_name": "generate_sql",
                 "arguments": {
-                  "sql": "SELECT * FROM products WHERE category = 'Electronics'"
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
                 }
               }
             ],
             "prediction_count": 1,
-            "sql_query": "SELECT * FROM products WHERE category = 'Electronics'",
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
             "query_result": {
               "columns": [
                 "id",
@@ -5379,22 +5446,22 @@
               "row_count": 2
             },
             "query_success": true,
-            "response": "# Electronics Products\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)",
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
             "usage": {
-              "input_tokens": 998,
-              "output_tokens": 108,
-              "input_cost": 0.000998,
-              "output_cost": 0.0005400000000000001,
-              "total_cost": 0.001538,
-              "duration_seconds": 1.8896207489997323
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.3041094169966527
             },
-            "model_name": "claude-haiku-4-5",
-            "model_provider": "anthropic",
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
             "temperature": 0.5
           },
           "id": null,
           "metadata": {
-            "duration_seconds": 1.9147250652313232
+            "duration_seconds": 2.3227460384368896
           }
         }
       },
@@ -5427,7 +5494,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998905+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030640+00:00",
           "metadata": {
             "name": "Single Tool Call",
             "description": "Agent made exactly one tool call"
@@ -5466,7 +5533,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998935+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030652+00:00",
           "metadata": {
             "name": "Correct Tool",
             "description": "Agent selected the generate_sql tool"
@@ -5493,7 +5560,7 @@
             },
             "text": {
               "jsonpath": "$.output.value.sql_query",
-              "value": "SELECT * FROM products WHERE category = 'Electronics'"
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
             },
             "phrases": {
               "jsonpath": "$.test_case.expected.must_reference_tables",
@@ -5514,7 +5581,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.998979+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030671+00:00",
           "metadata": {
             "name": "SQL References Tables",
             "description": "Generated SQL references the expected tables"
@@ -5549,7 +5616,7 @@
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:13.999021+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.030691+00:00",
           "metadata": {
             "name": "Query Succeeded",
             "description": "SQL query executed without errors"
@@ -5562,17 +5629,18 @@
           "status": "completed",
           "results": {
             "passed": true,
-            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (names, prices, and stock quantities) in a clear and well-formatted manner. The response directly addresses the question of listing all products in the Electronics category and presents the data in an easy-to-read format.",
+            "reasoning": "The agent correctly identified and listed all products in the Electronics category from the SQL query results. The response includes both \"Laptop Pro\" and \"Wireless Mouse,\" which matches the expected answer. While the agent provided additional details (prices and stock levels) beyond the expected answer, this is supplementary information that doesn't contradict or misrepresent the facts. The core requirement\u2014listing all Electronics category products\u2014was accurately fulfilled. The data presented is correct and matches the SQL query results.",
             "judge_metadata": {
               "judge_model": "claude-haiku-4-5",
-              "input_tokens": 907,
-              "output_tokens": 143,
-              "total_cost": 0.001622
+              "input_tokens": 966,
+              "output_tokens": 155,
+              "total_cost": 0.001741,
+              "duration_seconds": 3.2279269999999087
             }
           },
           "resolved_arguments": {
             "prompt": {
-              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: # Electronics Products\n\nThere are 2 products in the Electronics category:\n\n1. **Laptop Pro** - $1,299.99 (50 in stock)\n2. **Wireless Mouse** - $29.99 (200 in stock)\n\nDid the agent correctly answer the question based on the data?\n",
+              "value": "You are evaluating a database Q&A agent. Given the question, the expected answer, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion:\n\n```\nList all products in the Electronics category.\n```\n\nExpected Answer:\n\n```\nLaptop Pro and Wireless Mouse.\n```\n\nSQL Query Result:\n\n```\n{\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\n```\n\nAgent Response:\n\n```\nThe products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n```\n\nDid the agent's response match the expected answer? The wording does not need to be exact, but the facts and data must be correct. Currency values do not need to be exact to the cent and can be reasonably rounded.\n",
               "resolved_from": "template_processed"
             },
             "response_format": {
@@ -5580,11 +5648,11 @@
               "resolved_from": "literal"
             },
             "llm_function": {
-              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "value": "<function _make_judge_function.<locals>._judge at 0x105612520>",
               "resolved_from": "literal"
             }
           },
-          "evaluated_at": "2026-02-23T18:31:14.474741+00:00",
+          "evaluated_at": "2026-02-23T23:13:06.442384+00:00",
           "metadata": {
             "name": "Response Quality",
             "description": "LLM judges whether the response correctly answers the question"
@@ -5608,6 +5676,7 @@
       "test_module": "evals.test_agent",
       "samples": 10,
       "success_threshold": 0.6,
+      "max_concurrency": null,
       "num_test_cases": 2
     },
     "_test_results": {
