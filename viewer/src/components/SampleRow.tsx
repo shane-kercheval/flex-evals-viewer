@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import type { SampleResult, CheckResult } from '../types'
 import CheckBody from './CheckViews'
 
@@ -70,7 +70,6 @@ function CheckDetail({ check, open, onToggle }: { check: CheckResult; open: bool
 export default function SampleRow({ sample, index }: SampleRowProps) {
   const [expanded, setExpanded] = useState(false)
   const [openChecks, setOpenChecks] = useState<Set<number>>(new Set())
-  const checksContainerRef = useRef<HTMLDivElement>(null)
   const passed = samplePassed(sample)
   const duration = sample.execution_context.output.metadata.duration_seconds
   const value = sample.execution_context.output.value as Record<string, string | object | null>
@@ -124,7 +123,7 @@ export default function SampleRow({ sample, index }: SampleRowProps) {
                 {allChecksOpen ? '\u2212' : '+'}
               </button>
             </div>
-            <div ref={checksContainerRef} className="border border-gray-100 rounded divide-y divide-gray-100">
+            <div className="border border-gray-100 rounded divide-y divide-gray-100">
               {sample.check_results.map((check, i) => (
                 <CheckDetail
                   key={i}
@@ -151,6 +150,39 @@ export default function SampleRow({ sample, index }: SampleRowProps) {
             </summary>
             <pre className="text-xs bg-gray-50 p-2.5 rounded overflow-x-auto whitespace-pre-wrap mt-1">
               {JSON.stringify({ id: testCase.id, input: testCase.input, expected: testCase.expected, metadata: testCase.metadata }, null, 2)}
+            </pre>
+          </details>
+        )}
+        {value.sql_query && (
+          <details>
+            <summary className="text-xs font-medium text-gray-400 cursor-pointer">
+              SQL Query
+              <span className="font-normal text-gray-300 ml-1.5">The generated SQL query</span>
+            </summary>
+            <pre className="text-xs bg-gray-50 p-2.5 rounded overflow-x-auto whitespace-pre-wrap mt-1 font-mono">
+              {String(value.sql_query)}
+            </pre>
+          </details>
+        )}
+        {value.query_result && (
+          <details>
+            <summary className="text-xs font-medium text-gray-400 cursor-pointer">
+              Query Result
+              <span className="font-normal text-gray-300 ml-1.5">SQL query execution result</span>
+            </summary>
+            <pre className="text-xs bg-gray-50 p-2.5 rounded overflow-x-auto whitespace-pre-wrap mt-1">
+              {JSON.stringify(value.query_result, null, 2)}
+            </pre>
+          </details>
+        )}
+        {value.tool_predictions && Array.isArray(value.tool_predictions) && (value.tool_predictions as unknown[]).length > 0 && (
+          <details>
+            <summary className="text-xs font-medium text-gray-400 cursor-pointer">
+              Tool Predictions
+              <span className="font-normal text-gray-300 ml-1.5">Tool calls made by the agent</span>
+            </summary>
+            <pre className="text-xs bg-gray-50 p-2.5 rounded overflow-x-auto whitespace-pre-wrap mt-1">
+              {JSON.stringify(value.tool_predictions, null, 2)}
             </pre>
           </details>
         )}

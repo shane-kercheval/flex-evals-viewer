@@ -57,7 +57,6 @@ export default function RunsList() {
               <th className="px-3 py-2 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">Samples</th>
               <th className="px-3 py-2 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">Avg Cost</th>
               <th className="px-3 py-2 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">Avg Time</th>
-              <th className="px-3 py-2 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">Source</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-100">
@@ -92,7 +91,6 @@ export default function RunsList() {
                   <td className="px-3 py-2 text-sm text-gray-600 tabular-nums">
                     {run.avg_duration_seconds ? `${run.avg_duration_seconds.toFixed(1)}s` : '-'}
                   </td>
-                  <td className="px-3 py-2 text-sm text-gray-400">{run.source_dir}</td>
                 </tr>
               )
             })}

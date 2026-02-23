@@ -146,13 +146,76 @@ function EqualsView({ check }: { check: CheckResult }) {
   )
 }
 
-function FallbackView({ check }: { check: CheckResult }) {
+function LLMJudgeView({ check }: { check: CheckResult }) {
+  const args = check.resolved_arguments
+  const prompt = resolvedValue(args.prompt)
+  const reasoning = check.results.reasoning
+  const meta = check.results.judge_metadata
+
+  return (
+    <div className="space-y-2">
+      {reasoning && (
+        <div>
+          <FieldLabel label="Reasoning" />
+          <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap">
+            {reasoning}
+          </pre>
+        </div>
+      )}
+      {meta && (
+        <div className="flex flex-wrap gap-2">
+          {meta.judge_model && (
+            <span className="text-[11px] px-1.5 py-0.5 rounded bg-purple-50 text-purple-700 font-mono">
+              {meta.judge_model}
+            </span>
+          )}
+          {meta.total_cost != null && (
+            <span className="text-[11px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-600 font-mono">
+              ${meta.total_cost.toFixed(5)}
+            </span>
+          )}
+          {meta.input_tokens != null && (
+            <span className="text-[11px] px-1.5 py-0.5 rounded bg-gray-100 text-gray-500 font-mono">
+              {meta.input_tokens} in / {meta.output_tokens ?? '?'} out
+            </span>
+          )}
+        </div>
+      )}
+      {prompt != null && (
+        <details>
+          <summary className="text-[11px] text-gray-400 cursor-pointer">Prompt</summary>
+          <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap mt-1 max-h-60 overflow-y-auto">
+            {formatValue(prompt)}
+          </pre>
+        </details>
+      )}
+    </div>
+  )
+}
+
+function ResultsView({ check }: { check: CheckResult }) {
+  const { passed, ...rest } = check.results
+  if (Object.keys(rest).length === 0) return null
   return (
     <div>
-      <h6 className="text-[11px] text-gray-400 mb-0.5">Resolved Arguments</h6>
+      <h6 className="text-[11px] text-gray-400 mb-0.5">Results</h6>
       <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap">
-        {JSON.stringify(check.resolved_arguments, null, 2)}
+        {JSON.stringify(rest, null, 2)}
       </pre>
+    </div>
+  )
+}
+
+function FallbackView({ check }: { check: CheckResult }) {
+  return (
+    <div className="space-y-2">
+      <ResultsView check={check} />
+      <div>
+        <h6 className="text-[11px] text-gray-400 mb-0.5">Resolved Arguments</h6>
+        <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap">
+          {JSON.stringify(check.resolved_arguments, null, 2)}
+        </pre>
+      </div>
     </div>
   )
 }
@@ -165,6 +228,8 @@ export default function CheckBody({ check }: { check: CheckResult }) {
       return <ContainsView check={check} />
     case 'equals':
       return <EqualsView check={check} />
+    case 'llm_judge':
+      return <LLMJudgeView check={check} />
     default:
       return <FallbackView check={check} />
   }

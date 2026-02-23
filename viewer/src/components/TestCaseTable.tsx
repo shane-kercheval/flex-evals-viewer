@@ -22,7 +22,7 @@ function groupByTestCase(results: SampleResult[]): GroupedTestCase[] {
     } else {
       groups.set(tc.id, {
         id: tc.id,
-        description: tc.metadata.description,
+        description: tc.metadata?.description ?? '',
         samples: [result],
       })
     }

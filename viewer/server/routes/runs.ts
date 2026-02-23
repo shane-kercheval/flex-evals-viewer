@@ -1,19 +1,19 @@
 import { Router, type Request, type Response } from 'express'
 import { readFile, writeFile } from 'node:fs/promises'
-import { join, dirname, basename } from 'node:path'
+import { join, dirname, basename, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { glob } from 'glob'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
+const PROJECT_ROOT = join(__dirname, '..', '..', '..')
 const RESULT_DIRS = [
-  join(__dirname, '..', '..', '..', 'evals', 'results'),
+  join(PROJECT_ROOT, 'evals', 'results'),
 ]
 
 const router = Router()
 
 interface ResultFile {
   path: string
-  sourceDir: string
   filename: string
 }
 
@@ -21,9 +21,8 @@ async function findAllResultFiles(): Promise<ResultFile[]> {
   const files: ResultFile[] = []
   for (const dir of RESULT_DIRS) {
     const matches = await glob('*.json', { cwd: dir, absolute: true })
-    const sourceDir = basename(dirname(dir))
     for (const filePath of matches) {
-      files.push({ path: filePath, sourceDir, filename: basename(filePath) })
+      files.push({ path: filePath, filename: basename(filePath) })
     }
   }
   return files
@@ -39,6 +38,22 @@ async function findFileByEvaluationId(evaluationId: string): Promise<ResultFile 
     }
   }
   return null
+}
+
+// Extract model info from first sample if not in top-level metadata
+function enrichMetadataFromSamples(data: Record<string, unknown>): void {
+  const metadata = data.metadata as Record<string, unknown> | undefined
+  const results = data.results as Array<Record<string, unknown>> | undefined
+  if (!metadata?.model_name && Array.isArray(results) && results.length > 0) {
+    const firstValue = (results[0] as Record<string, unknown>)?.execution_context as Record<string, unknown> | undefined
+    const outputValue = (firstValue?.output as Record<string, unknown>)?.value as Record<string, unknown> | undefined
+    if (outputValue?.model_name) {
+      (data.metadata as Record<string, unknown>).model_name = outputValue.model_name
+    }
+    if (outputValue?.model_provider) {
+      (data.metadata as Record<string, unknown>).model_provider = outputValue.model_provider
+    }
+  }
 }
 
 // GET /api/runs — list all runs (without results array)
@@ -70,10 +85,10 @@ router.get('/', async (_req: Request, res: Response) => {
           }
         }
       }
+      enrichMetadataFromSamples(data)
       const { results: _, ...rest } = data
       runs.push({
         ...rest,
-        source_dir: file.sourceDir,
         filename: file.filename,
         total_cost,
         total_input_tokens,
@@ -100,7 +115,8 @@ router.get('/:evaluationId', async (req: Request<{ evaluationId: string }>, res:
     }
     const raw = await readFile(file.path, 'utf-8')
     const data = JSON.parse(raw)
-    res.json(data)
+    enrichMetadataFromSamples(data)
+    res.json({ ...data, file_path: relative(PROJECT_ROOT, file.path) })
   } catch (err) {
     console.error('Error fetching run:', err)
     res.status(500).json({ error: 'Failed to fetch run' })

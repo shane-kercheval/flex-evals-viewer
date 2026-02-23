@@ -5,6 +5,14 @@ export interface CheckResult {
   results: {
     passed: boolean
     found?: string[]
+    reasoning?: string
+    judge_metadata?: {
+      judge_model?: string
+      input_tokens?: number
+      output_tokens?: number
+      total_cost?: number
+    }
+    [key: string]: unknown
   }
   resolved_arguments: Record<string, unknown>
   evaluated_at: string
@@ -25,10 +33,9 @@ export interface TestCase {
   id: string
   input: Record<string, unknown>
   expected: Record<string, unknown>
-  metadata: {
-    description: string
+  metadata?: {
+    description?: string
   }
-  checks: unknown
 }
 
 export interface TestOutput {
@@ -94,6 +101,7 @@ export interface EvalRun {
   summary: RunSummary
   results: SampleResult[]
   metadata: RunMetadata
+  file_path?: string
 }
 
 export interface EvalRunListItem {
@@ -103,7 +111,6 @@ export interface EvalRunListItem {
   status: 'completed' | 'error'
   summary: RunSummary
   metadata: RunMetadata
-  source_dir: string
   filename: string
   total_cost?: number
   total_input_tokens?: number

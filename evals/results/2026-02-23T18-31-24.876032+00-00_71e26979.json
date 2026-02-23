@@ -1,0 +1,5638 @@
+{
+  "evaluation_id": "be61d755-5924-412f-b73e-f6b259b10f53",
+  "started_at": "2026-02-23T18:31:21.443421+00:00",
+  "completed_at": "2026-02-23T18:31:24.869733+00:00",
+  "status": "completed",
+  "summary": {
+    "total_test_cases": 20,
+    "completed_test_cases": 20,
+    "error_test_cases": 0
+  },
+  "results": [
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "What are the top 3 most expensive products?"
+          },
+          "id": "top-expensive-products",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "ORDER BY with LIMIT to rank products"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  5,
+                  "Coffee Maker",
+                  "Home",
+                  159.99,
+                  30
+                ],
+                [
+                  3,
+                  "Running Shoes",
+                  "Sports",
+                  89.99,
+                  100
+                ]
+              ],
+              "row_count": 3
+            },
+            "query_success": true,
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
+            "usage": {
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.669199124999068
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.6938319206237793
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.446503+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.446667+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.446747+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.446818+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly identified the top 3 most expensive products from the SQL query results. The data shows three products sorted by price in descending order: Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99). The agent's response accurately lists these products in the correct order with their correct prices. The answer directly addresses the question asked.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 916,
+              "output_tokens": 137,
+              "total_cost": 0.001601
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449723+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "List all products in the Electronics category."
+          },
+          "id": "products-in-category",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "Filter products by category"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  2,
+                  "Wireless Mouse",
+                  "Electronics",
+                  29.99,
+                  200
+                ]
+              ],
+              "row_count": 2
+            },
+            "query_success": true,
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200",
+            "usage": {
+              "input_tokens": 351,
+              "output_tokens": 66,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.96e-05,
+              "total_cost": 9.224999999999999e-05,
+              "duration_seconds": 2.5612831250000454
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.5993659496307373
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.446853+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.446881+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.446927+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.446971+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: (1) Laptop Pro with price $1299.99 and stock 50, and (2) Wireless Mouse with price $29.99 and stock 200. The agent's response accurately lists both products with their correct prices and stock quantities. The response is complete, well-formatted, and directly addresses the user's request to list all products in the Electronics category.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 895,
+              "output_tokens": 154,
+              "total_cost": 0.001665
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: The products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.492189+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "What are the top 3 most expensive products?"
+          },
+          "id": "top-expensive-products",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "ORDER BY with LIMIT to rank products"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  5,
+                  "Coffee Maker",
+                  "Home",
+                  159.99,
+                  30
+                ],
+                [
+                  3,
+                  "Running Shoes",
+                  "Sports",
+                  89.99,
+                  100
+                ]
+              ],
+              "row_count": 3
+            },
+            "query_success": true,
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
+            "usage": {
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.631362001000525
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.654466152191162
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447003+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447032+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447080+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447123+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly identified the top 3 most expensive products from the SQL query results. The data shows three products sorted by price in descending order: Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99). The agent's response accurately lists these products in the correct order with their correct prices. The answer directly addresses the question asked.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 916,
+              "output_tokens": 137,
+              "total_cost": 0.001601
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.520589+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "List all products in the Electronics category."
+          },
+          "id": "products-in-category",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "Filter products by category"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  2,
+                  "Wireless Mouse",
+                  "Electronics",
+                  29.99,
+                  200
+                ]
+              ],
+              "row_count": 2
+            },
+            "query_success": true,
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200",
+            "usage": {
+              "input_tokens": 351,
+              "output_tokens": 66,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.96e-05,
+              "total_cost": 9.224999999999999e-05,
+              "duration_seconds": 2.6620577499998035
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.685088872909546
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447155+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447182+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447227+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447274+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category, and the agent accurately listed both products with their relevant details (name, price, and stock). The information presented matches the query results exactly, and the format is clear and easy to understand. The agent successfully identified and presented all products from the Electronics category as requested.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 895,
+              "output_tokens": 128,
+              "total_cost": 0.001535
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: The products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.545092+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "What are the top 3 most expensive products?"
+          },
+          "id": "top-expensive-products",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "ORDER BY with LIMIT to rank products"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  5,
+                  "Coffee Maker",
+                  "Home",
+                  159.99,
+                  30
+                ],
+                [
+                  3,
+                  "Running Shoes",
+                  "Sports",
+                  89.99,
+                  100
+                ]
+              ],
+              "row_count": 3
+            },
+            "query_success": true,
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
+            "usage": {
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.564099499999429
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.5873630046844482
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447303+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447330+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447376+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447419+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly identified the top 3 most expensive products from the SQL query results. The data shows three products sorted by price in descending order: Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99). The agent's response accurately lists these products in the correct order with their correct prices. The answer directly addresses the question asked.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 916,
+              "output_tokens": 137,
+              "total_cost": 0.001601
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.567828+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "List all products in the Electronics category."
+          },
+          "id": "products-in-category",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "Filter products by category"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  2,
+                  "Wireless Mouse",
+                  "Electronics",
+                  29.99,
+                  200
+                ]
+              ],
+              "row_count": 2
+            },
+            "query_success": true,
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200",
+            "usage": {
+              "input_tokens": 351,
+              "output_tokens": 66,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.96e-05,
+              "total_cost": 9.224999999999999e-05,
+              "duration_seconds": 2.5271285840008204
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.5502288341522217
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447448+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447476+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447520+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447563+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category, and the agent accurately listed both products with their relevant details (name, price, and stock). The response is complete, accurate, and well-formatted. All information from the query results was correctly presented to the user.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 895,
+              "output_tokens": 119,
+              "total_cost": 0.00149
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: The products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.590019+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "What are the top 3 most expensive products?"
+          },
+          "id": "top-expensive-products",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "ORDER BY with LIMIT to rank products"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  5,
+                  "Coffee Maker",
+                  "Home",
+                  159.99,
+                  30
+                ],
+                [
+                  3,
+                  "Running Shoes",
+                  "Sports",
+                  89.99,
+                  100
+                ]
+              ],
+              "row_count": 3
+            },
+            "query_success": true,
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
+            "usage": {
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.5623449989980145
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.585381269454956
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447590+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447619+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447664+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447707+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly identified the top 3 most expensive products from the SQL query results. The data shows three products sorted by price in descending order: Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99). The agent's response accurately lists these products in the correct order with their correct prices. The answer directly addresses the question asked.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 916,
+              "output_tokens": 137,
+              "total_cost": 0.001601
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.612262+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "List all products in the Electronics category."
+          },
+          "id": "products-in-category",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "Filter products by category"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  2,
+                  "Wireless Mouse",
+                  "Electronics",
+                  29.99,
+                  200
+                ]
+              ],
+              "row_count": 2
+            },
+            "query_success": true,
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
+            "usage": {
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.434627874999933
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.4588658809661865
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447734+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447760+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447806+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447848+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: (1) Laptop Pro priced at $1299.99 with 50 units in stock, and (2) Wireless Mouse priced at $29.99 with 200 units in stock. The agent's response accurately lists both products with their correct names, prices, and stock quantities. The response is well-formatted, complete, and directly addresses the user's request to list all products in the Electronics category.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 895,
+              "output_tokens": 165,
+              "total_cost": 0.0017200000000000002
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.634433+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "What are the top 3 most expensive products?"
+          },
+          "id": "top-expensive-products",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "ORDER BY with LIMIT to rank products"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT name, price FROM products ORDER BY price DESC LIMIT 3;"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT name, price FROM products ORDER BY price DESC LIMIT 3;",
+            "query_result": {
+              "columns": [
+                "name",
+                "price"
+              ],
+              "rows": [
+                [
+                  "Laptop Pro",
+                  1299.99
+                ],
+                [
+                  "Coffee Maker",
+                  159.99
+                ],
+                [
+                  "Running Shoes",
+                  89.99
+                ]
+              ],
+              "row_count": 3
+            },
+            "query_success": true,
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
+            "usage": {
+              "input_tokens": 338,
+              "output_tokens": 66,
+              "input_cost": 5.07e-05,
+              "output_cost": 3.96e-05,
+              "total_cost": 9.03e-05,
+              "duration_seconds": 2.752820125000653
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.77669095993042
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447876+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447904+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT name, price FROM products ORDER BY price DESC LIMIT 3;"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447946+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.447984+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (most expensive first), and the agent accurately listed all three products with their correct names and prices in the proper order: Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99). The response format is clear and directly addresses the question asked.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 881,
+              "output_tokens": 140,
+              "total_cost": 0.001581
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"name\", \"price\"], \"rows\": [[\"Laptop Pro\", 1299.99], [\"Coffee Maker\", 159.99], [\"Running Shoes\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.656564+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "List all products in the Electronics category."
+          },
+          "id": "products-in-category",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "Filter products by category"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  2,
+                  "Wireless Mouse",
+                  "Electronics",
+                  29.99,
+                  200
+                ]
+              ],
+              "row_count": 2
+            },
+            "query_success": true,
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
+            "usage": {
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.371613625000464
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.397916793823242
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448011+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448036+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448077+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448114+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (name, price, and stock quantity) in a clear and organized format. All information presented matches the query results exactly.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 895,
+              "output_tokens": 123,
+              "total_cost": 0.00151
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.679206+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "What are the top 3 most expensive products?"
+          },
+          "id": "top-expensive-products",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "ORDER BY with LIMIT to rank products"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  5,
+                  "Coffee Maker",
+                  "Home",
+                  159.99,
+                  30
+                ],
+                [
+                  3,
+                  "Running Shoes",
+                  "Sports",
+                  89.99,
+                  100
+                ]
+              ],
+              "row_count": 3
+            },
+            "query_success": true,
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
+            "usage": {
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.616988666999532
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.6397218704223633
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448140+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448166+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448207+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448247+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly identified and listed the top 3 most expensive products in descending order by price. The SQL query result shows three products with prices of $1299.99, $159.99, and $89.99 respectively, and the agent's response accurately matches these products and their prices in the correct order from most to least expensive. The response is clear, well-formatted, and directly answers the question asked.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 916,
+              "output_tokens": 143,
+              "total_cost": 0.001631
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.702271+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "List all products in the Electronics category."
+          },
+          "id": "products-in-category",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "Filter products by category"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  2,
+                  "Wireless Mouse",
+                  "Electronics",
+                  29.99,
+                  200
+                ]
+              ],
+              "row_count": 2
+            },
+            "query_success": true,
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
+            "usage": {
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.3933363760006614
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.4163930416107178
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448275+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448302+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448345+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448384+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (names and prices), and includes additional helpful information (stock levels) from the query results. The response is complete, accurate, and well-formatted.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 895,
+              "output_tokens": 129,
+              "total_cost": 0.0015400000000000001
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.724945+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "What are the top 3 most expensive products?"
+          },
+          "id": "top-expensive-products",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "ORDER BY with LIMIT to rank products"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  5,
+                  "Coffee Maker",
+                  "Home",
+                  159.99,
+                  30
+                ],
+                [
+                  3,
+                  "Running Shoes",
+                  "Sports",
+                  89.99,
+                  100
+                ]
+              ],
+              "row_count": 3
+            },
+            "query_success": true,
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
+            "usage": {
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.5523488329999964
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.575005054473877
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448413+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448440+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448482+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448520+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly identified the top 3 most expensive products from the SQL query results. The data shows three products sorted by price in descending order: Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99). The agent's response accurately lists these products in the correct order with their correct prices. The answer directly and completely addresses the question asked.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 916,
+              "output_tokens": 139,
+              "total_cost": 0.001611
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.747581+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "List all products in the Electronics category."
+          },
+          "id": "products-in-category",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "Filter products by category"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  2,
+                  "Wireless Mouse",
+                  "Electronics",
+                  29.99,
+                  200
+                ]
+              ],
+              "row_count": 2
+            },
+            "query_success": true,
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
+            "usage": {
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.318745750000744
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.347743034362793
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448547+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448574+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448616+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448656+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (name, price, and stock quantity) in a clear, organized format. All information presented matches the query results exactly, and the response directly addresses the user's request to list all products in the Electronics category.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 895,
+              "output_tokens": 141,
+              "total_cost": 0.0015999999999999999
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.770103+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "What are the top 3 most expensive products?"
+          },
+          "id": "top-expensive-products",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "ORDER BY with LIMIT to rank products"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT name, price FROM products ORDER BY price DESC LIMIT 3;"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT name, price FROM products ORDER BY price DESC LIMIT 3;",
+            "query_result": {
+              "columns": [
+                "name",
+                "price"
+              ],
+              "rows": [
+                [
+                  "Laptop Pro",
+                  1299.99
+                ],
+                [
+                  "Coffee Maker",
+                  159.99
+                ],
+                [
+                  "Running Shoes",
+                  89.99
+                ]
+              ],
+              "row_count": 3
+            },
+            "query_success": true,
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
+            "usage": {
+              "input_tokens": 338,
+              "output_tokens": 66,
+              "input_cost": 5.07e-05,
+              "output_cost": 3.96e-05,
+              "total_cost": 9.03e-05,
+              "duration_seconds": 2.7483348339992517
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.7715401649475098
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448682+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448708+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT name, price FROM products ORDER BY price DESC LIMIT 3;"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448748+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448786+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query result shows 3 products sorted by price in descending order (most expensive first), and the agent accurately listed all three products with their correct names and prices in the proper order: Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99). The response format is clear and directly addresses the question asked.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 881,
+              "output_tokens": 140,
+              "total_cost": 0.001581
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"name\", \"price\"], \"rows\": [[\"Laptop Pro\", 1299.99], [\"Coffee Maker\", 159.99], [\"Running Shoes\", 89.99]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.792576+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "List all products in the Electronics category."
+          },
+          "id": "products-in-category",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "Filter products by category"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  2,
+                  "Wireless Mouse",
+                  "Electronics",
+                  29.99,
+                  200
+                ]
+              ],
+              "row_count": 2
+            },
+            "query_success": true,
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
+            "usage": {
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.4183805419997952
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.4439611434936523
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448811+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448837+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448879+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448931+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category, and the agent accurately listed both products with their relevant details:\n1. Laptop Pro at $1299.99 with 50 in stock\n2. Wireless Mouse at $29.99 with 200 in stock\n\nThe response is complete, accurate, and well-formatted, presenting all the products from the query results in a clear and readable manner.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 895,
+              "output_tokens": 152,
+              "total_cost": 0.001655
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.814953+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "What are the top 3 most expensive products?"
+          },
+          "id": "top-expensive-products",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "ORDER BY with LIMIT to rank products"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  5,
+                  "Coffee Maker",
+                  "Home",
+                  159.99,
+                  30
+                ],
+                [
+                  3,
+                  "Running Shoes",
+                  "Sports",
+                  89.99,
+                  100
+                ]
+              ],
+              "row_count": 3
+            },
+            "query_success": true,
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99",
+            "usage": {
+              "input_tokens": 373,
+              "output_tokens": 64,
+              "input_cost": 5.595e-05,
+              "output_cost": 3.84e-05,
+              "total_cost": 9.435e-05,
+              "duration_seconds": 2.4636634169983154
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.4867680072784424
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448959+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.448987+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449027+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449068+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly identified the top 3 most expensive products based on the SQL query results. The data shows three products sorted by price in descending order: Laptop Pro ($1299.99), Coffee Maker ($159.99), and Running Shoes ($89.99). The agent's response accurately lists these products in the correct order with their correct prices. The answer directly and completely addresses the question asked.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 916,
+              "output_tokens": 140,
+              "total_cost": 0.001616
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99\n2. Coffee Maker - $159.99\n3. Running Shoes - $89.99\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.837235+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "List all products in the Electronics category."
+          },
+          "id": "products-in-category",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "Filter products by category"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  2,
+                  "Wireless Mouse",
+                  "Electronics",
+                  29.99,
+                  200
+                ]
+              ],
+              "row_count": 2
+            },
+            "query_success": true,
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)",
+            "usage": {
+              "input_tokens": 351,
+              "output_tokens": 63,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.78e-05,
+              "total_cost": 9.045e-05,
+              "duration_seconds": 2.3124396249986603
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.336050033569336
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449094+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449124+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449165+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449222+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (name, price, and stock quantity) in a clear, organized format. All information presented matches the query results exactly, and the response directly addresses the user's request to list all products in the Electronics category.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 895,
+              "output_tokens": 141,
+              "total_cost": 0.0015999999999999999
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: The products in the Electronics category are:\n\n1. Laptop Pro - $1299.99 (Stock: 50)\n2. Wireless Mouse - $29.99 (Stock: 200)\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.859525+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "What are the top 3 most expensive products?"
+          },
+          "id": "top-expensive-products",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "ORDER BY with LIMIT to rank products"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products ORDER BY price DESC LIMIT 3;",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  5,
+                  "Coffee Maker",
+                  "Home",
+                  159.99,
+                  30
+                ],
+                [
+                  3,
+                  "Running Shoes",
+                  "Sports",
+                  89.99,
+                  100
+                ]
+              ],
+              "row_count": 3
+            },
+            "query_success": true,
+            "response": "The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99 (Electronics)\n2. Coffee Maker - $159.99 (Home)\n3. Running Shoes - $89.99 (Sports)",
+            "usage": {
+              "input_tokens": 373,
+              "output_tokens": 72,
+              "input_cost": 5.595e-05,
+              "output_cost": 4.319999999999999e-05,
+              "total_cost": 9.915e-05,
+              "duration_seconds": 2.678773833997184
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.7020070552825928
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449249+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449278+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products ORDER BY price DESC LIMIT 3;"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449319+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449360+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly identified and listed the top 3 most expensive products in descending order of price. The SQL query result shows three products with prices of $1299.99, $159.99, and $89.99 respectively. The agent's response accurately matches these products with their correct prices and categories, presented in the correct order from most to least expensive. The answer is complete, accurate, and directly addresses the question asked.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 928,
+              "output_tokens": 145,
+              "total_cost": 0.001653
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: What are the top 3 most expensive products?\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [5, \"Coffee Maker\", \"Home\", 159.99, 30], [3, \"Running Shoes\", \"Sports\", 89.99, 100]], \"row_count\": 3}\nAgent Response: The top 3 most expensive products are:\n\n1. Laptop Pro - $1299.99 (Electronics)\n2. Coffee Maker - $159.99 (Home)\n3. Running Shoes - $89.99 (Sports)\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.881647+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    },
+    {
+      "status": "completed",
+      "execution_context": {
+        "test_case": {
+          "input": {
+            "question": "List all products in the Electronics category."
+          },
+          "id": "products-in-category",
+          "expected": {
+            "tool_name": "generate_sql",
+            "must_reference_tables": [
+              "products"
+            ]
+          },
+          "metadata": {
+            "description": "Filter products by category"
+          },
+          "checks": null
+        },
+        "output": {
+          "value": {
+            "tool_predictions": [
+              {
+                "tool_name": "generate_sql",
+                "arguments": {
+                  "sql": "SELECT * FROM products WHERE category = 'Electronics';"
+                }
+              }
+            ],
+            "prediction_count": 1,
+            "sql_query": "SELECT * FROM products WHERE category = 'Electronics';",
+            "query_result": {
+              "columns": [
+                "id",
+                "name",
+                "category",
+                "price",
+                "stock"
+              ],
+              "rows": [
+                [
+                  1,
+                  "Laptop Pro",
+                  "Electronics",
+                  1299.99,
+                  50
+                ],
+                [
+                  2,
+                  "Wireless Mouse",
+                  "Electronics",
+                  29.99,
+                  200
+                ]
+              ],
+              "row_count": 2
+            },
+            "query_success": true,
+            "response": "The products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200",
+            "usage": {
+              "input_tokens": 351,
+              "output_tokens": 66,
+              "input_cost": 5.265e-05,
+              "output_cost": 3.96e-05,
+              "total_cost": 9.224999999999999e-05,
+              "duration_seconds": 2.4778656660000706
+            },
+            "model_name": "gpt-4o-mini",
+            "model_provider": "openai",
+            "temperature": 0.5
+          },
+          "id": null,
+          "metadata": {
+            "duration_seconds": 2.5014631748199463
+          }
+        }
+      },
+      "check_results": [
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Single Tool Call",
+                "description": "Agent made exactly one tool call"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.prediction_count",
+              "value": 1
+            },
+            "expected": {
+              "value": 1,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449388+00:00",
+          "metadata": {
+            "name": "Single Tool Call",
+            "description": "Agent made exactly one tool call"
+          },
+          "error": null
+        },
+        {
+          "check_type": "exact_match",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Correct Tool",
+                "description": "Agent selected the generate_sql tool"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.tool_predictions[0].tool_name",
+              "value": "generate_sql"
+            },
+            "expected": {
+              "jsonpath": "$.test_case.expected.tool_name",
+              "value": "generate_sql"
+            },
+            "case_sensitive": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449415+00:00",
+          "metadata": {
+            "name": "Correct Tool",
+            "description": "Agent selected the generate_sql tool"
+          },
+          "error": null
+        },
+        {
+          "check_type": "contains",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "found": [
+              "products"
+            ]
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "SQL References Tables",
+                "description": "Generated SQL references the expected tables"
+              },
+              "resolved_from": "literal"
+            },
+            "text": {
+              "jsonpath": "$.output.value.sql_query",
+              "value": "SELECT * FROM products WHERE category = 'Electronics';"
+            },
+            "phrases": {
+              "jsonpath": "$.test_case.expected.must_reference_tables",
+              "value": [
+                "products"
+              ]
+            },
+            "case_sensitive": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            },
+            "match_all": {
+              "value": true,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449457+00:00",
+          "metadata": {
+            "name": "SQL References Tables",
+            "description": "Generated SQL references the expected tables"
+          },
+          "error": null
+        },
+        {
+          "check_type": "equals",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true
+          },
+          "resolved_arguments": {
+            "metadata": {
+              "value": {
+                "name": "Query Succeeded",
+                "description": "SQL query executed without errors"
+              },
+              "resolved_from": "literal"
+            },
+            "actual": {
+              "jsonpath": "$.output.value.query_success",
+              "value": true
+            },
+            "expected": {
+              "value": true,
+              "resolved_from": "literal"
+            },
+            "negate": {
+              "value": false,
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.449495+00:00",
+          "metadata": {
+            "name": "Query Succeeded",
+            "description": "SQL query executed without errors"
+          },
+          "error": null
+        },
+        {
+          "check_type": "llm_judge",
+          "check_version": "1.0.0",
+          "status": "completed",
+          "results": {
+            "passed": true,
+            "reasoning": "The agent correctly answered the question. The SQL query returned 2 products in the Electronics category: \"Laptop Pro\" and \"Wireless Mouse\". The agent's response accurately lists both products with their relevant details (name, price, and stock). The information is presented clearly and completely matches the query results. All products from the Electronics category were included in the response.",
+            "judge_metadata": {
+              "judge_model": "claude-haiku-4-5",
+              "input_tokens": 895,
+              "output_tokens": 130,
+              "total_cost": 0.001545
+            }
+          },
+          "resolved_arguments": {
+            "prompt": {
+              "value": "You are evaluating a database Q&A agent. Given the question, the SQL query result data, and the agent's response, determine whether the agent correctly answered the question.\n\nQuestion: List all products in the Electronics category.\nSQL Query Result: {\"columns\": [\"id\", \"name\", \"category\", \"price\", \"stock\"], \"rows\": [[1, \"Laptop Pro\", \"Electronics\", 1299.99, 50], [2, \"Wireless Mouse\", \"Electronics\", 29.99, 200]], \"row_count\": 2}\nAgent Response: The products in the Electronics category are:\n\n1. Laptop Pro - Price: $1299.99, Stock: 50\n2. Wireless Mouse - Price: $29.99, Stock: 200\n\nDid the agent correctly answer the question based on the data?\n",
+              "resolved_from": "template_processed"
+            },
+            "response_format": {
+              "value": "<class 'evals.test_agent.ResponseJudgement'>",
+              "resolved_from": "literal"
+            },
+            "llm_function": {
+              "value": "<function _make_judge_function.<locals>._judge at 0x10b2f74c0>",
+              "resolved_from": "literal"
+            }
+          },
+          "evaluated_at": "2026-02-23T18:31:21.903937+00:00",
+          "metadata": {
+            "name": "Response Quality",
+            "description": "LLM judges whether the response correctly answers the question"
+          },
+          "error": null
+        }
+      ],
+      "summary": {
+        "total_checks": 5,
+        "completed_checks": 5,
+        "error_checks": 0
+      },
+      "metadata": null
+    }
+  ],
+  "metadata": {
+    "eval_name": "Product Queries",
+    "eval_description": "Tests SQL generation for product ranking and category filtering.",
+    "_test_config": {
+      "test_function": "test_product_queries",
+      "test_module": "evals.test_agent",
+      "samples": 10,
+      "success_threshold": 0.6,
+      "num_test_cases": 2
+    },
+    "_test_results": {
+      "passed_samples": 10,
+      "failed_samples": 0,
+      "total_samples": 10,
+      "success_rate": 1.0,
+      "success_threshold": 0.6,
+      "passed": true
+    }
+  }
+}

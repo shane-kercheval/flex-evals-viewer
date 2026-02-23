@@ -189,6 +189,3 @@ lid.176.ftz
 # Viewer
 node_modules/
 viewer/dist/
-
-# Eval results
-evals/results/*.json
