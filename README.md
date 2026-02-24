@@ -1,6 +1,6 @@
 # flex-evals-viewer
 
-Template repository for evaluating LLM-based agents with [flex-evals](https://github.com/shanekercheval/flex-evals), plus a web viewer for exploring results.
+Template repository for evaluating LLM-based agents with [flex-evals](https://github.com/shanekercheval/flex-evals) using `@evaluate` pytest decorator, plus a web viewer for exploring results.
 
 ## Why This Template
 
