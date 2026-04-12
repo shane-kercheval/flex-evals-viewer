@@ -1,4 +1,5 @@
 import type { CheckResult } from '../types'
+import SyntaxJson from './SyntaxJson'
 
 function resolvedValue(arg: unknown): unknown {
   if (arg && typeof arg === 'object' && 'value' in arg) return (arg as Record<string, unknown>).value
@@ -54,9 +55,7 @@ function ValueCell({ label, value, jsonpath }: { label: string; value: unknown; 
   return (
     <div className="flex-1 min-w-0">
       <FieldLabel label={label} jsonpath={jsonpath} />
-      <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap break-all text-blue-700">
-        {formatValue(value)}
-      </pre>
+      <SyntaxJson data={value} className="p-2 break-all" />
     </div>
   )
 }
@@ -102,25 +101,19 @@ function ContainsView({ check }: { check: CheckResult }) {
       <div className="flex gap-3">
         <div className="flex-1 min-w-0">
           <FieldLabel label="Phrases Searched" jsonpath={resolvedJsonpath(args.phrases)} />
-          <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap break-all text-blue-700">
-            {formatValue(phrases)}
-          </pre>
+          <SyntaxJson data={phrases} className="p-2 break-all" />
         </div>
         {found && (
           <div className="flex-1 min-w-0">
             <FieldLabel label="Phrases Found" />
-            <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap break-all text-blue-700">
-              {formatValue(found)}
-            </pre>
+            <SyntaxJson data={found} className="p-2 break-all" />
           </div>
         )}
       </div>
       {text != null && (
         <div>
           <FieldLabel label="Text Searched" jsonpath={resolvedJsonpath(args.text)} />
-          <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap break-all text-blue-700 max-h-60 overflow-y-auto">
-            {formatValue(text)}
-          </pre>
+          <SyntaxJson data={text} className="p-2 break-all max-h-60 overflow-y-auto" />
         </div>
       )}
     </div>
@@ -146,20 +139,29 @@ function EqualsView({ check }: { check: CheckResult }) {
   )
 }
 
+function formatMetricValue(val: unknown): string {
+  if (val == null) return String(val)
+  if (typeof val === 'object') return JSON.stringify(val)
+  return String(val)
+}
+
 function LLMJudgeView({ check }: { check: CheckResult }) {
   const args = check.resolved_arguments
-  const prompt = resolvedValue(args.prompt)
-  const reasoning = check.results.reasoning
+  const prompt = resolvedValue(args?.prompt)
   const meta = check.results.judge_metadata
+
+  // Separate reasoning (display as text) from metrics (display as key-value)
+  const { passed: _passed, judge_metadata: _meta, reasoning, ...metrics } = check.results
+  const reasoningStr = reasoning != null ? String(reasoning) : null
 
   return (
     <div className="space-y-2">
-      {reasoning && (
+      {reasoningStr && (
         <div>
           <FieldLabel label="Reasoning" />
-          <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap">
-            {reasoning}
-          </pre>
+          <p className="text-xs bg-gray-50 p-2 rounded text-gray-700 whitespace-pre-wrap">
+            {reasoningStr}
+          </p>
         </div>
       )}
       {meta && (
@@ -186,10 +188,22 @@ function LLMJudgeView({ check }: { check: CheckResult }) {
           )}
         </div>
       )}
+      {Object.keys(metrics).length > 0 && (
+        <div className="flex flex-wrap gap-3">
+          {Object.entries(metrics).map(([key, val]) => (
+            <div key={key} className="text-xs">
+              <span className="text-gray-400">{key.replace(/_/g, ' ')}: </span>
+              <span className="font-medium text-gray-700">{formatMetricValue(val)}</span>
+            </div>
+          ))}
+        </div>
+      )}
       {prompt != null && (
         <details>
-          <summary className="text-[11px] text-gray-400 cursor-pointer">Prompt</summary>
-          <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap mt-1 max-h-60 overflow-y-auto">
+          <summary className="text-[11px] text-gray-400 cursor-pointer">
+            Judge Prompt
+          </summary>
+          <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap break-all text-blue-700 max-h-60 overflow-y-auto mt-1">
             {formatValue(prompt)}
           </pre>
         </details>
@@ -199,14 +213,28 @@ function LLMJudgeView({ check }: { check: CheckResult }) {
 }
 
 function ResultsView({ check }: { check: CheckResult }) {
-  const { passed, ...rest } = check.results
-  if (Object.keys(rest).length === 0) return null
+  const { passed: _passed, ...otherResults } = check.results
+  const args = check.resolved_arguments
+
+  // Show the resolved value if results only has 'passed'.
+  // Argument names (value, collection) are conventions from the flex-evals check framework
+  // for is_empty, threshold, subset, superset, disjoint, and set_equal checks.
+  const resolvedVal = args ? resolvedValue(args.value ?? args.collection) : undefined
+
   return (
-    <div>
-      <h6 className="text-[11px] text-gray-400 mb-0.5">Results</h6>
-      <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap">
-        {JSON.stringify(rest, null, 2)}
-      </pre>
+    <div className="space-y-2">
+      {Object.keys(otherResults).length > 0 && (
+        <div>
+          <FieldLabel label="Results" />
+          <SyntaxJson data={otherResults} className="p-2 break-all" />
+        </div>
+      )}
+      {Object.keys(otherResults).length === 0 && resolvedVal != null && (
+        <div>
+          <FieldLabel label="Resolved Value" jsonpath={resolvedJsonpath(args?.value ?? args?.collection)} />
+          <SyntaxJson data={resolvedVal} className="p-2 break-all" />
+        </div>
+      )}
     </div>
   )
 }
@@ -217,9 +245,7 @@ function FallbackView({ check }: { check: CheckResult }) {
       <ResultsView check={check} />
       <div>
         <h6 className="text-[11px] text-gray-400 mb-0.5">Resolved Arguments</h6>
-        <pre className="text-xs bg-gray-50 p-2 rounded overflow-x-auto whitespace-pre-wrap">
-          {JSON.stringify(check.resolved_arguments, null, 2)}
-        </pre>
+        <SyntaxJson data={check.resolved_arguments} className="p-2" />
       </div>
     </div>
   )
@@ -235,6 +261,13 @@ export default function CheckBody({ check }: { check: CheckResult }) {
       return <EqualsView check={check} />
     case 'llm_judge':
       return <LLMJudgeView check={check} />
+    case 'subset':
+    case 'superset':
+    case 'disjoint':
+    case 'set_equal':
+    case 'is_empty':
+    case 'threshold':
+      return <ResultsView check={check} />
     default:
       return <FallbackView check={check} />
   }

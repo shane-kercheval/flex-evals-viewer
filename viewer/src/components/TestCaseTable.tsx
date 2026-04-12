@@ -78,9 +78,12 @@ function TestCaseRow({ group, expanded, onToggle }: { group: GroupedTestCase; ex
   const passedCount = group.samples.filter(samplePassed).length
   const total = group.samples.length
   const allPassed = passedCount === total
-  const avgDuration =
-    group.samples.reduce((sum, s) => sum + s.execution_context.output.metadata.duration_seconds, 0) /
-    total
+  const durations = group.samples
+    .map((s) => s.execution_context.output.metadata?.duration_seconds)
+    .filter((d): d is number => d != null)
+  const avgDuration = durations.length > 0
+    ? durations.reduce((sum, d) => sum + d, 0) / durations.length
+    : null
   const avgCost = (() => {
     let totalCost = 0
     let hasCost = false
@@ -119,7 +122,7 @@ function TestCaseRow({ group, expanded, onToggle }: { group: GroupedTestCase; ex
         </span>
         <span className="font-medium text-gray-900">{group.id}</span>
         <span className="text-gray-500 truncate flex-1">{group.description}</span>
-        <span className="text-gray-400 text-xs tabular-nums">{avgDuration.toFixed(2)}s avg</span>
+        {avgDuration != null && <span className="text-gray-400 text-xs tabular-nums">{avgDuration.toFixed(2)}s avg</span>}
         {avgCost != null && (
           <span className="text-gray-400 text-xs tabular-nums">${avgCost.toFixed(4)} avg</span>
         )}

@@ -43,7 +43,7 @@ export interface TestOutput {
   value: Record<string, unknown>
   id: string | null
   metadata: {
-    duration_seconds: number
+    duration_seconds?: number
   }
 }
 
