@@ -70,17 +70,40 @@ export interface TestConfig {
   test_function: string
   test_module: string
   samples: number
-  success_threshold: number
+  pass_threshold: number
+  pass_mode: 'per_test_case' | 'sample'
   num_test_cases: number
 }
 
+export interface PerTestCaseResult {
+  index: number
+  id: string | null
+  passed: number
+  failed: number
+  total: number
+  rate: number
+}
+
 export interface TestResults {
+  pass_mode: 'per_test_case' | 'sample'
+  pass_threshold: number
+  passed: boolean
+  // Sample-level stats
   passed_samples: number
   failed_samples: number
   total_samples: number
-  success_rate: number
-  success_threshold: number
-  passed: boolean
+  sample_pass_rate: number
+  // Per-test-case stats (present when pass_mode is 'per_test_case')
+  per_test_case?: PerTestCaseResult[]
+  failed_test_cases?: Array<{
+    index: number
+    id: string | null
+  }>
+}
+
+/** Whether a per-test-case entry meets the pass threshold. */
+export function testCasePassed(tc: PerTestCaseResult, threshold: number): boolean {
+  return tc.rate >= threshold
 }
 
 export interface RunMetadata {

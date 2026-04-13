@@ -108,7 +108,7 @@ async def _run_eval(
     test_cases=CUSTOMER_TESTS,
     checks=CHECKS,
     samples=EVAL_CONFIG["samples"],
-    success_threshold=EVAL_CONFIG["success_threshold"],
+    pass_threshold=EVAL_CONFIG["pass_threshold"],
     output_dir=Path(__file__).parent / "results",
     metadata={
         "eval_name": CATEGORIES["customer_queries"]["name"],
@@ -128,7 +128,7 @@ async def test_customer_queries(
     test_cases=PRODUCT_TESTS,
     checks=CHECKS,
     samples=EVAL_CONFIG["samples"],
-    success_threshold=EVAL_CONFIG["success_threshold"],
+    pass_threshold=EVAL_CONFIG["pass_threshold"],
     output_dir=Path(__file__).parent / "results",
     metadata={
         "eval_name": CATEGORIES["product_queries"]["name"],
@@ -148,7 +148,7 @@ async def test_product_queries(
     test_cases=ORDER_TESTS,
     checks=CHECKS,
     samples=EVAL_CONFIG["samples"],
-    success_threshold=EVAL_CONFIG["success_threshold"],
+    pass_threshold=EVAL_CONFIG["pass_threshold"],
     output_dir=Path(__file__).parent / "results",
     metadata={
         "eval_name": CATEGORIES["order_queries"]["name"],

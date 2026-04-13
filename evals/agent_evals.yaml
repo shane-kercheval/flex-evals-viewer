@@ -11,7 +11,7 @@ models:
 
 eval:
   samples: 10
-  success_threshold: 0.6
+  pass_threshold: 0.6
 
 categories:
   customer_queries:

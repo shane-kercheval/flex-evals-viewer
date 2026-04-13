@@ -1,7 +1,18 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useRuns } from '../hooks/useRuns'
+import { testCasePassed } from '../types'
 import Filters, { type FilterValues } from './Filters'
+import type { TestResults } from '../types'
+
+function rateLabel(results: TestResults): string {
+  if (results.pass_mode === 'per_test_case' && results.per_test_case) {
+    const passing = results.per_test_case.filter(tc => testCasePassed(tc, results.pass_threshold)).length
+    const total = results.per_test_case.length
+    return `${passing}/${total} (${total > 0 ? ((passing / total) * 100).toFixed(0) : 0}%)`
+  }
+  return `${(results.sample_pass_rate * 100).toFixed(0)}%`
+}
 
 export default function RunsList() {
   const { runs, loading, error } = useRuns()
@@ -55,6 +66,7 @@ export default function RunsList() {
               <th className="px-3 py-2 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">Rate</th>
               <th className="px-3 py-2 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">Status</th>
               <th className="px-3 py-2 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">Samples</th>
+              <th className="px-3 py-2 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">Mode</th>
               <th className="px-3 py-2 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">Avg Cost</th>
               <th className="px-3 py-2 text-left text-[11px] font-medium text-gray-400 uppercase tracking-wider">Avg Time</th>
             </tr>
@@ -81,7 +93,9 @@ export default function RunsList() {
                   </td>
                   <td className="px-3 py-2 text-sm font-medium text-gray-900">{run.metadata.eval_name || config.test_function}</td>
                   <td className="px-3 py-2 text-sm text-gray-600">{run.metadata.model_name ?? 'unknown'}</td>
-                  <td className="px-3 py-2 text-sm text-gray-600 tabular-nums">{(results.success_rate * 100).toFixed(0)}%</td>
+                  <td className="px-3 py-2 text-sm text-gray-600 tabular-nums">
+                    {rateLabel(results)}
+                  </td>
                   <td className="px-3 py-2">
                     <span className={`inline-flex items-center px-1.5 py-0.5 rounded text-xs font-medium ${
                       results.passed ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
@@ -91,6 +105,9 @@ export default function RunsList() {
                   </td>
                   <td className="px-3 py-2 text-sm text-gray-600 tabular-nums">
                     {results.passed_samples}/{results.total_samples}
+                  </td>
+                  <td className="px-3 py-2 text-sm text-gray-400">
+                    {results.pass_mode === 'per_test_case' ? 'per-tc' : results.pass_mode}
                   </td>
                   <td className="px-3 py-2 text-sm text-gray-600 tabular-nums">
                     {run.avg_cost ? `$${run.avg_cost.toFixed(4)}` : '-'}
